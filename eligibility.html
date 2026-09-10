@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Government Eligibility Assessment | GovSkill Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gov-top-strip"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+            <img src="images/logo.png" class="site-logo">
+          </div>
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">Citizen Assessment Engine</span>
+            <span class="portal-title">GovSkill Connect</span>
+          </div>
+        </a>
+        <div class="header-actions" id="header-auth-container">
+          <a href="login.html" class="btn btn-primary btn-sm">Login</a>
+        </div>
+      </div>
+    </div>
+
+    <nav class="main-nav">
+      <div class="container">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html">Home</a></li>
+          <li class="nav-item"><a href="opportunities.html">Opportunities</a></li>
+          <li class="nav-item active"><a href="eligibility.html">Government Eligibility</a></li>
+          <li class="nav-item"><a href="government-schemes.html">Government Schemes</a></li>
+          <li class="nav-item"><a href="candidate-search.html">Candidate Registry</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Banner -->
+  <section style="background: var(--gov-navy); color:#fff; padding: 32px 0; border-bottom: 3px solid var(--gov-saffron);">
+    <div class="container">
+      <h1 style="font-size: 26px; font-weight: 800; margin-bottom: 6px;">Government Scheme & Program Eligibility Engine</h1>
+      <p style="font-size: 14px; color: #cbd5e1;">
+        Evaluate your eligibility for Post-Matric Scholarships, PM Internship Scheme, NAPS Apprenticeships, and NSQF Skilling Programs.
+      </p>
+    </div>
+  </section>
+
+  <!-- Assessment Tool -->
+  <main class="container" style="padding: 36px 20px;">
+    <div class="card" style="margin-bottom: 28px; box-shadow: var(--shadow-sm);">
+      <div class="card-header">
+        <h3 class="card-title">📝 Enter Your Profile Details to Calculate Eligibility</h3>
+      </div>
+      <div class="card-body">
+        <form id="eligibility-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="el-state">State of Domicile</label>
+              <select class="form-select" id="el-state">
+                <option value="Maharashtra" selected>Maharashtra</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Other">Other State / Pan-India</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="el-category">Reservation Category</label>
+              <select class="form-select" id="el-category">
+                <option value="GENERAL">General</option>
+                <option value="OBC" selected>OBC (Other Backward Class)</option>
+                <option value="SC">SC (Scheduled Caste)</option>
+                <option value="ST">ST (Scheduled Tribe)</option>
+                <option value="EWS">EWS</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="el-education">Current Education Level</label>
+              <select class="form-select" id="el-education">
+                <option value="Undergraduate" selected>Undergraduate Degree (B.Tech / BCA / B.Sc)</option>
+                <option value="Postgraduate">Postgraduate Degree (M.Tech / MCA)</option>
+                <option value="Diploma">Diploma / Polytechnic</option>
+                <option value="ITI">ITI Certification</option>
+                <option value="12th">12th Standard Passed</option>
+                <option value="10th">10th Standard Passed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="el-branch">Discipline / Branch</label>
+              <input type="text" class="form-control" id="el-branch" value="Computer Science & Engineering" placeholder="e.g. Computer Science, Mechanical, Civil">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="el-skills">Key Skills (Comma Separated)</label>
+              <input type="text" class="form-control" id="el-skills" value="Java, C++, SQL, Web Development" placeholder="e.g. Python, Communication, CAD">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-saffron btn-lg">Calculate Matching Schemes & Eligibility →</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Official Advisory Warning Box -->
+    <div class="alert alert-warning" style="margin-bottom: 28px;">
+      ⚠️ <strong>Statutory Disclaimer:</strong> “Always verify final eligibility, domicile conditions, parental income ceilings, and deadlines on the official government department website. This assessment is an advisory platform recommendation.”
+    </div>
+
+    <!-- Results Categories Tabs -->
+    <div id="eligibility-results-wrapper" style="display:none;">
+      <h2 style="font-size:22px; color:var(--gov-navy); margin-bottom:18px; font-weight:800;">
+        Program Eligibility Assessment Results
+      </h2>
+
+      <div style="display:grid; grid-template-columns: 1fr; gap: 24px;">
+
+        <!-- 1. Scholarship Eligibility -->
+        <div class="card">
+          <div class="card-header" style="background:#f0fdf4;">
+            <h3 class="card-title" style="color:#166534;">🎓 Scholarship Eligibility</h3>
+          </div>
+          <div class="card-body" id="res-scholarship">
+            <!-- Items -->
+          </div>
+        </div>
+
+        <!-- 2. Employment Schemes -->
+        <div class="card">
+          <div class="card-header" style="background:#eff6ff;">
+            <h3 class="card-title" style="color:#1e40af;">💼 Government Employment & Internship Schemes</h3>
+          </div>
+          <div class="card-body" id="res-employment">
+            <!-- Items -->
+          </div>
+        </div>
+
+        <!-- 3. Skill Development -->
+        <div class="card">
+          <div class="card-header" style="background:#fefce8;">
+            <h3 class="card-title" style="color:#854d0e;">🛠️ Skill Development Programs (PMKVY)</h3>
+          </div>
+          <div class="card-body" id="res-skill">
+            <!-- Items -->
+          </div>
+        </div>
+
+        <!-- 4. Apprenticeships -->
+        <div class="card">
+          <div class="card-header" style="background:#faf5ff;">
+            <h3 class="card-title" style="color:#6b21a8;">⚙️ National Apprenticeship Training (NAPS/NATS)</h3>
+          </div>
+          <div class="card-body" id="res-apprentice">
+            <!-- Items -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="gov-footer" style="margin-top:auto;">
+    <div class="footer-bottom">
+      <div class="container text-center">
+        <div>© 2026 GovSkill Connect • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('eligibility-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        runEligibilityCalculation();
+      });
+      // Initial calculation
+      runEligibilityCalculation();
+    });
+
+    async function runEligibilityCalculation() {
+      const state = document.getElementById('el-state').value;
+      const category = document.getElementById('el-category').value;
+      const education = document.getElementById('el-education').value;
+      const branch = document.getElementById('el-branch').value;
+      const skills = document.getElementById('el-skills').value;
+
+      try {
+        const res = await API.get('/eligibility', { state, category, education, branch, skills });
+        const results = res.results;
+
+        document.getElementById('eligibility-results-wrapper').style.display = 'block';
+
+        renderProgramSection('res-scholarship', results.SCHOLARSHIP || []);
+        renderProgramSection('res-employment', results.EMPLOYMENT_SCHEME || []);
+        renderProgramSection('res-skill', results.SKILL_DEVELOPMENT || []);
+        renderProgramSection('res-apprentice', results.APPRENTICESHIP || []);
+
+      } catch (err) {
+        alert('Error assessing eligibility: ' + err.message);
+      }
+    }
+
+    function renderProgramSection(containerId, list) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      if (list.length === 0) {
+        container.innerHTML = '<div style="color:var(--text-muted); font-size:13px;">No specific schemes match your filter in this category.</div>';
+        return;
+      }
+
+      let html = '';
+      list.forEach(m => {
+        const p = m.program;
+        html += `
+          <div style="padding:14px 0; border-bottom:1px solid var(--border-light); display:flex; justify-content:space-between; align-items:flex-start; gap:16px;">
+            <div style="flex:1;">
+              <div style="display:flex; gap:8px; align-items:center; margin-bottom:4px;">
+                <span class="badge ${m.eligible ? 'badge-verified' : 'badge-pending'}">
+                  ${m.eligible ? '✓ Likely Eligible' : '⚠️ Verification Needed'} (${m.eligibilityScore}% Match)
+                </span>
+                <span style="font-size:12px; color:var(--text-muted);">${escapeHtml(p.department)}</span>
+              </div>
+              <h4 style="font-size:16px; color:var(--gov-navy); margin-bottom:4px;">${escapeHtml(p.name)}</h4>
+              <p style="font-size:13px; color:var(--text-main); margin-bottom:6px;">${escapeHtml(p.description)}</p>
+              <div style="font-size:12px; color:#065f46; background:#f0fdf4; padding:6px 10px; border-radius:4px; margin-bottom:6px;">
+                🎁 <strong>Benefits:</strong> ${escapeHtml(p.benefits)}
+              </div>
+              <div style="font-size:12px; color:var(--text-muted);">
+                📋 <strong>Evaluation Rationale:</strong> ${escapeHtml(m.matchReason)}
+              </div>
+            </div>
+            <div style="flex-shrink:0;">
+              <a href="${p.applicationUrl}" target="_blank" class="btn btn-outline-primary btn-sm">Official Portal ↗</a>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+  </script>
+</body>
+</html>

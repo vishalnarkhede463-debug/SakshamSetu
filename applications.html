@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Applications | GovSkill Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gov-top-strip"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+            <img src="images/logo.png" class="site-logo">
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">Application Tracking Desk</span>
+            <span class="portal-title">GovSkill Connect</span>
+          </div>
+        </a>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <a href="accessible-student-portal.html" class="access-btn" style="background:#ffb703; color:#000000; font-weight:800; padding:4px 12px; border-radius:4px; text-decoration:none; display:inline-flex; align-items:center; gap:5px; border:2px solid #000;" title="Open Accessible Student Portal (Keyboard Shortcut: Alt + A)" aria-label="Open Accessible Student Portal. Shortcut: Alt plus A">♿ Accessible Student Portal <kbd style="font-size:10px; background:#000; color:#fff; padding:1px 4px; border-radius:2px; margin-left:3px;">Alt+A</kbd></a>
+          <div class="header-actions" id="header-auth-container"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-user-tile">
+        <div class="user-avatar-circle" id="sidebar-avatar">S</div>
+        <div class="user-tile-name" id="sidebar-user-name">Candidate</div>
+        <div class="user-tile-role">Application Center</div>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-menu-item"><a href="student-dashboard.html">📊 Dashboard</a></li>
+        <li class="sidebar-menu-item" style="background:#fef3c7; border-left:4px solid #f59e0b;"><a href="accessible-student-portal.html" style="color:#b45309; font-weight:800;">♿ Accessible Portal (Alt+A)</a></li>
+        <li class="sidebar-menu-item"><a href="student-profile.html">👤 My Profile</a></li>
+        <li class="sidebar-menu-item"><a href="opportunities.html">🔍 Opportunities</a></li>
+        <li class="sidebar-menu-item active"><a href="applications.html">📋 Applications</a></li>
+        <li class="sidebar-menu-item"><a href="notifications.html">🔔 Notifications</a></li>
+        <li class="sidebar-menu-item"><a href="#" onclick="handleLogout(); return false;" style="color:#f87171;">🚪 Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="dashboard-main">
+      <div class="dashboard-header-banner">
+        <div>
+          <h2 style="font-size:24px; color:var(--gov-navy); font-weight:800;">My Submitted Applications</h2>
+          <p style="color:var(--text-muted); font-size:14px;">Track live review milestones for all your submitted government and enterprise applications.</p>
+        </div>
+        <a href="opportunities.html" class="btn btn-primary btn-sm">+ Apply to New Opportunity</a>
+      </div>
+
+      <div id="student-applications-list">
+        <div class="alert alert-info">Retrieving your application history...</div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="gov-footer" style="margin-top:auto;">
+    <div class="footer-bottom">
+      <div class="container text-center">
+        <div>© 2026 GovSkill Connect • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = API.getUser();
+      if (user) {
+        document.getElementById('sidebar-user-name').innerText = user.name;
+        document.getElementById('sidebar-avatar').innerText = user.name.charAt(0).toUpperCase();
+      }
+    });
+  </script>
+</body>
+</html>
