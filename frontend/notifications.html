@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications | GovSkill Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gov-top-strip"></div>
+
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+             <div class="brand-emblem-svg">
+            <img src="images/logo.png" class="site-logo">
+          </div>
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">Official Communication</span>
+            <span class="portal-title">GovSkill Connect</span>
+          </div>
+        </a>
+        <div class="header-actions" id="header-auth-container"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-wrapper">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-user-tile">
+        <div class="user-avatar-circle" id="sidebar-avatar">N</div>
+        <div class="user-tile-name" id="sidebar-user-name">User</div>
+        <div class="user-tile-role">Notifications Desk</div>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-menu-item"><a href="student-dashboard.html">📊 Dashboard</a></li>
+        <li class="sidebar-menu-item"><a href="opportunities.html">🔍 Opportunities</a></li>
+        <li class="sidebar-menu-item"><a href="applications.html">📋 Applications</a></li>
+        <li class="sidebar-menu-item active"><a href="notifications.html">🔔 Notifications</a></li>
+        <li class="sidebar-menu-item"><a href="#" onclick="handleLogout(); return false;" style="color:#f87171;">🚪 Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="dashboard-main">
+      <div class="dashboard-header-banner">
+        <div>
+          <h2 style="font-size:24px; color:var(--gov-navy); font-weight:800;">Notification Inbox</h2>
+          <p style="color:var(--text-muted); font-size:14px;">Updates on your applications, certificate verifications, and matched programs.</p>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="markAllNotificationsRead()">✓ Mark All as Read</button>
+      </div>
+
+      <div id="notifications-list-container">
+        <div class="alert alert-info">Loading inbox...</div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="gov-footer" style="margin-top:auto;">
+    <div class="footer-bottom">
+      <div class="container text-center">
+        <div>© 2026 GovSkill Connect • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = API.getUser();
+      if (user) {
+        document.getElementById('sidebar-user-name').innerText = user.name;
+        document.getElementById('sidebar-avatar').innerText = user.name.charAt(0).toUpperCase();
+      }
+    });
+  </script>
+</body>
+</html>

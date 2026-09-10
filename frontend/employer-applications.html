@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Candidate Applications | GovSkill Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gov-top-strip"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+             <div class="brand-emblem-svg">
+            <img src="images/logo.png" class="site-logo">
+          </div>
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">Recruitment Review Desk</span>
+            <span class="portal-title">GovSkill Connect</span>
+          </div>
+        </a>
+        <div class="header-actions">
+          <a href="employer-dashboard.html" class="btn btn-secondary btn-sm">← Back to Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-user-tile">
+        <div class="user-avatar-circle" style="background:var(--gov-navy-light);">🏢</div>
+        <div class="user-tile-name" id="sidebar-org-name">Recruitment Desk</div>
+        <div class="user-tile-role">Review Panel</div>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-menu-item"><a href="employer-dashboard.html">📊 Dashboard</a></li>
+        <li class="sidebar-menu-item"><a href="post-opportunity.html">➕ Post Opportunity</a></li>
+        <li class="sidebar-menu-item active"><a href="employer-applications.html">📑 Manage Applications</a></li>
+        <li class="sidebar-menu-item"><a href="candidate-search.html">👥 Candidate Search</a></li>
+        <li class="sidebar-menu-item"><a href="#" onclick="handleLogout(); return false;" style="color:#f87171;">🚪 Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="dashboard-main">
+      <div class="dashboard-header-banner">
+        <div>
+          <h2 style="font-size:24px; color:var(--gov-navy); font-weight:800;">Applicant Evaluation Pipeline</h2>
+          <p style="color:var(--text-muted); font-size:14px;">Review student candidate submissions and update recruitment decisions in real-time.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Candidate Submissions</h3>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <div id="employer-apps-table-container">
+            <div style="padding:20px;" class="alert alert-info">Loading applications...</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="gov-footer" style="margin-top:auto;">
+    <div class="footer-bottom">
+      <div class="container text-center">
+        <div>© 2026 GovSkill Connect • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = API.getUser();
+      if (user) {
+        document.getElementById('sidebar-org-name').innerText = user.name;
+      }
+    });
+  </script>
+</body>
+</html>

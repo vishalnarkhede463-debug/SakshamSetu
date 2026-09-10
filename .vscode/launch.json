@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Run GovSkill Connect Server",
+      "request": "launch",
+      "mainClass": "com.govskill.Main",
+      "projectName": "GovSkillConnect"
+    }
+  ]
+}

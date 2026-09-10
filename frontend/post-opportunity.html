@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Opportunity | GovSkill Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gov-top-strip"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+              <div class="brand-emblem-svg">
+            <img src="images/logo.png" class="site-logo">
+          </div>
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">Recruitment & Opportunity Management</span>
+            <span class="portal-title">GovSkill Connect</span>
+          </div>
+        </a>
+        <div class="header-actions">
+          <a href="employer-dashboard.html" class="btn btn-secondary btn-sm">← Back to Workspace</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-user-tile">
+        <div class="user-avatar-circle" style="background:var(--gov-navy-light);">🏢</div>
+        <div class="user-tile-name" id="sidebar-org-name">Employer</div>
+        <div class="user-tile-role">Opportunity Editor</div>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-menu-item"><a href="employer-dashboard.html">📊 Dashboard</a></li>
+        <li class="sidebar-menu-item active"><a href="post-opportunity.html">➕ Post Opportunity</a></li>
+        <li class="sidebar-menu-item"><a href="employer-applications.html">📑 Manage Applications</a></li>
+        <li class="sidebar-menu-item"><a href="candidate-search.html">👥 Candidate Search</a></li>
+        <li class="sidebar-menu-item"><a href="#" onclick="handleLogout(); return false;" style="color:#f87171;">🚪 Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="dashboard-main">
+      <div class="dashboard-header-banner">
+        <div>
+          <h2 style="font-size:24px; color:var(--gov-navy); font-weight:800;">Create Opportunity Notice</h2>
+          <p style="color:var(--text-muted); font-size:14px;">Publish an authentic job, internship, or apprenticeship across the national talent network.</p>
+        </div>
+      </div>
+
+      <div class="card" style="box-shadow:var(--shadow-sm); margin-bottom:32px;">
+        <div class="card-body" style="padding:28px;">
+          <div id="post-alert" class="alert" style="display:none;"></div>
+
+          <form id="post-opp-form">
+            <div class="form-group">
+              <label class="form-label" for="opp-title">Opportunity Title *</label>
+              <input type="text" class="form-control" id="opp-title" placeholder="e.g. Graduate Engineering Trainee (Cyber Security)" required>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="opp-type">Opportunity Classification *</label>
+                <select class="form-select" id="opp-type" required>
+                  <option value="GOVERNMENT_JOB">Government Job / PSU Cadre</option>
+                  <option value="PRIVATE_JOB" selected>Private Enterprise Job</option>
+                  <option value="INTERNSHIP">Internship (PMIS / Enterprise)</option>
+                  <option value="APPRENTICESHIP">Apprenticeship (NAPS / NATS)</option>
+                  <option value="SCHOLARSHIP">Fellowship / Scholarship</option>
+                  <option value="SKILL_DEVELOPMENT">Skill Development Program (PMKVY)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="opp-salary">Stipend / Remuneration (INR) *</label>
+                <input type="text" class="form-control" id="opp-salary" placeholder="e.g. INR 25,000 / month stipend or INR 6.5 LPA" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="opp-desc">Detailed Scope & Role Description *</label>
+              <textarea class="form-control" id="opp-desc" rows="4" placeholder="Detail candidate responsibilities, day-to-day duties, and organizational scope..." required></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="opp-edu">Minimum Education Qualification *</label>
+                <select class="form-select" id="opp-edu" required>
+                  <option value="B.Tech / B.E. / MCA" selected>B.Tech / B.E. / MCA / B.Sc (IT)</option>
+                  <option value="M.Tech / Post Graduate">M.Tech / Post Graduate</option>
+                  <option value="Diploma in Engineering">Diploma in Engineering</option>
+                  <option value="ITI in Relevant Trade">ITI in Relevant Trade</option>
+                  <option value="12th / Higher Secondary">12th / Higher Secondary</option>
+                  <option value="Any Graduate">Any Graduate / All Streams</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="opp-branch">Eligible Academic Branch *</label>
+                <input type="text" class="form-control" id="opp-branch" value="Computer Science, IT, Electronics" placeholder="e.g. Computer Science, Mechanical, Civil, or All" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="opp-skills">Required Technical / Domain Skills (Comma Separated) *</label>
+              <input type="text" class="form-control" id="opp-skills" placeholder="e.g. Java, Python, SQL, C++, Linux, Communication" required>
+              <div class="form-text">The C++ matching engine uses these tokens to calculate candidate compatibility scores.</div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="opp-state">Posting State *</label>
+                <select class="form-select" id="opp-state">
+                  <option value="Maharashtra" selected>Maharashtra</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Telangana">Telangana</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="opp-city">City *</label>
+                <input type="text" class="form-control" id="opp-city" value="Pune" placeholder="e.g. Pune, Mumbai, Bengaluru, Delhi" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="opp-category">Category Quota</label>
+                <select class="form-select" id="opp-category">
+                  <option value="ALL" selected>All Categories (Open)</option>
+                  <option value="GENERAL">General Only</option>
+                  <option value="OBC">OBC Reservation</option>
+                  <option value="SC">SC Reservation</option>
+                  <option value="ST">ST Reservation</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="opp-deadline">Application Deadline *</label>
+                <input type="date" class="form-control" id="opp-deadline" value="2026-11-30" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="opp-url">Official Notification URL (Optional)</label>
+                <input type="url" class="form-control" id="opp-url" placeholder="https://organization.gov.in/careers">
+              </div>
+            </div>
+
+            <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border-light); display:flex; justify-content:flex-end;">
+              <button type="submit" class="btn btn-saffron btn-lg" id="submit-opp-btn">
+                Publish Opportunity to National Directory →
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- My Existing Posted Opportunities -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">My Published Opportunities</h3>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <div id="my-opps-container">
+            <div style="padding:20px;" class="alert alert-info">Loading your listings...</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="gov-footer" style="margin-top:auto;">
+    <div class="footer-bottom">
+      <div class="container text-center">
+        <div>© 2026 GovSkill Connect • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = requireAuth('EMPLOYER');
+      if (!user) return;
+
+      document.getElementById('sidebar-org-name').innerText = user.name;
+      loadMyOpportunities();
+      initForm();
+    });
+
+    function initForm() {
+      const form = document.getElementById('post-opp-form');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const alertBox = document.getElementById('post-alert');
+        const submitBtn = document.getElementById('submit-opp-btn');
+
+        const payload = {
+          title: document.getElementById('opp-title').value.trim(),
+          type: document.getElementById('opp-type').value,
+          description: document.getElementById('opp-desc').value.trim(),
+          educationRequirement: document.getElementById('opp-edu').value,
+          branch: document.getElementById('opp-branch').value.trim(),
+          skills: document.getElementById('opp-skills').value.trim(),
+          stipendOrSalary: document.getElementById('opp-salary').value.trim(),
+          state: document.getElementById('opp-state').value,
+          city: document.getElementById('opp-city').value.trim(),
+          category: document.getElementById('opp-category').value,
+          deadline: document.getElementById('opp-deadline').value,
+          sourceUrl: document.getElementById('opp-url').value.trim()
+        };
+
+        try {
+          submitBtn.disabled = true;
+          submitBtn.innerText = 'Publishing...';
+
+          const res = await API.post('/opportunities', payload);
+          if (res && res.success) {
+            showAlert(alertBox, 'success', 'Opportunity successfully published to the National Directory.');
+            form.reset();
+            loadMyOpportunities();
+          } else {
+            showAlert(alertBox, 'danger', res.error || 'Failed to post opportunity.');
+          }
+        } catch (err) {
+          showAlert(alertBox, 'danger', err.message);
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerText = 'Publish Opportunity to National Directory →';
+        }
+      });
+    }
+
+    async function loadMyOpportunities() {
+      const container = document.getElementById('my-opps-container');
+      try {
+        const res = await API.get('/employer/opportunities');
+        const list = res.opportunities || [];
+
+        if (list.length === 0) {
+          container.innerHTML = '<div style="padding:20px;" class="alert alert-info">No opportunities published yet. Fill out the form above to post your first opening.</div>';
+          return;
+        }
+
+        let html = `
+          <table class="gov-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Classification</th>
+                <th>City</th>
+                <th>Stipend</th>
+                <th>Deadline</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        list.forEach(o => {
+          html += `
+            <tr>
+              <td><strong><a href="opportunity-details.html?id=${o.id}">${escapeHtml(o.title)}</a></strong></td>
+              <td><span class="badge badge-govt">${o.type.replace('_', ' ')}</span></td>
+              <td>${escapeHtml(o.city)}, ${escapeHtml(o.state)}</td>
+              <td>${escapeHtml(o.stipendOrSalary)}</td>
+              <td>${o.deadline}</td>
+              <td>
+                <button class="btn btn-secondary btn-sm" onclick="handleDeleteOpportunity(${o.id})">Delete</button>
+              </td>
+            </tr>
+          `;
+        });
+
+        html += '</tbody></table>';
+        container.innerHTML = html;
+      } catch (err) {
+        container.innerHTML = `<div style="padding:20px;" class="alert alert-danger">${err.message}</div>`;
+      }
+    }
+
+    async function handleDeleteOpportunity(id) {
+      if (!confirm('Are you sure you want to remove this opportunity notice?')) return;
+      await API.delete(`/opportunities/${id}`);
+      loadMyOpportunities();
+    }
+  </script>
+</body>
+</html>

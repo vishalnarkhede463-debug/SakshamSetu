@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Digital Titans | Governmet Skill & Portal </title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    display: block;
+    border-radius: 50px;
+}
+   
+  </style>
+</head>
+
+<body>
+
+  <!-- National Tricolor Strip -->
+  <div class="gov-top-strip"></div>
+
+  <!-- Top Accessibility & Utility Bar -->
+  <div class="top-utility-bar">
+    <div class="container">
+      <div class="top-bar-content">
+        <div class="top-bar-left">
+          <div class="national-emblem-badge">
+            <span>🇮🇳</span> भारत सरकार | Government of India
+          </div>
+          <span style="color:rgba(255,255,255,0.3)">|</span>
+          <span style="font-size:11px; color:#cbd5e1;">Ministry of Skill Development & Entrepreneurship</span>
+        </div>
+        <div class="top-bar-right">
+          <div class="access-tools">
+            <a id="btn-accessible-portal-shortcut" href="accessible-student-portal.html" class="access-btn" style="background:#ffb703; color:#000000; font-weight:800; padding:3px 10px; border-radius:4px; text-decoration:none; display:inline-flex; align-items:center; gap:5px; margin-right:8px; border:2px solid #000;" title="Open Accessible Student Portal (Keyboard Shortcut: Alt + A)" aria-label="Open Accessible Student Portal. Shortcut: Alt plus A">♿ Accessible Student Portal <kbd style="font-size:10px; background:#000; color:#fff; padding:1px 4px; border-radius:2px; margin-left:3px;">Alt+A</kbd></a>
+            <button class="access-btn" id="btn-font-decrease" title="Decrease Text Size">A-</button>
+            <button class="access-btn" id="btn-font-reset" title="Normal Text Size">A</button>
+            <button class="access-btn" id="btn-font-increase" title="Increase Text Size">A+</button>
+          </div>
+          <select class="lang-select" id="language-selector" title="Choose Portal Language">
+            <option value="en" selected>English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="mr">मराठी (Marathi)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Portal Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+            <!-- Lion Capital Emblem SVG Placeholder -->
+           <img src="images/logo.png"  class="site-logo">
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">National Skills & Employment Gateway</span>
+            <span class="portal-title">SAKSHAM SETU </span>
+            <span class="portal-tagline">Connecting Talent, Skills, and Verified Opportunities</span>
+          </div>
+        </a>
+        <div class="header-actions" id="header-auth-container">
+          <a href="login.html" class="btn btn-primary btn-sm">Login</a>
+          <a href="register.html" class="btn btn-saffron btn-sm">Register</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+      <div class="container">
+        <ul class="nav-list">
+          <li class="nav-item active"><a href="index.html">Home</a></li>
+          <li class="nav-item"><a href="opportunities.html">Opportunities</a></li>
+          <li class="nav-item"><a href="eligibility.html">Government Eligibility</a></li>
+          <li class="nav-item"><a href="government-schemes.html">Government Schemes</a></li>
+          <li class="nav-item"><a href="candidate-search.html">Candidate Registry</a></li>
+          <li class="nav-item"><a href="#resources">Resources</a></li>
+          <li class="nav-item"><a href="#about">About</a></li>
+          <li class="nav-item"><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Live Announcements Ticker -->
+  <!-- Live Announcements Ticker -->
+<div class="ticker-bar">
+    <div class="container">
+        <div class="ticker-wrapper">
+            <span class="ticker-label">Latest Update</span>
+
+            <div class="ticker-window">
+                <div id="tickerText" class="ticker-text">
+                    📢 Prime Minister Internship Scheme (PMIS) Cycle 2026 applications are now live
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!-- Hero Section -->
+  <section class="hero-banner">
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-badge-tag">Unified Digital India Initiative</span>
+        <h1 class="hero-title">Build Your Skills. Find Opportunities. Shape Your Future.</h1>
+        <p class="hero-subtitle">
+          Discover verified government jobs, internships, apprenticeships, scholarships, and skill development programs tailored to your education and certified skills.
+        </p>
+
+        <!-- Search Bar -->
+        <form class="hero-search-box" id="hero-search-form">
+          <input type="text" class="hero-search-input" id="hero-search-input" placeholder="Search jobs, internships, scholarships, skill programs, or skills (e.g. Java, Python)..." required>
+          <button type="submit" class="btn btn-saffron hero-search-btn">Search Opportunities</button>
+        </form>
+
+        <div style="margin-bottom: 12px;">
+          <a href="register.html" class="btn btn-primary" style="background:#072541; border:1px solid rgba(255,255,255,0.3);">
+            🚀 Build Your Profile & Get Verified
+          </a>
+        </div>
+
+        <!-- Quick Categories -->
+        <div class="hero-quick-categories">
+          <a href="opportunities.html?type=GOVERNMENT_JOB" class="quick-category-pill">🏛️ Government Jobs</a>
+          <a href="opportunities.html?type=INTERNSHIP" class="quick-category-pill">💼 Internships</a>
+          <a href="opportunities.html?type=APPRENTICESHIP" class="quick-category-pill">⚙️ Apprenticeships</a>
+          <a href="opportunities.html?type=SCHOLARSHIP" class="quick-category-pill">🎓 Scholarships</a>
+          <a href="opportunities.html?type=SKILL_DEVELOPMENT" class="quick-category-pill">🛠️ Skill Development</a>
+          <a href="government-schemes.html" class="quick-category-pill">🇮🇳 Government Schemes</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Platform Stats -->
+  <section class="stats-strip">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">10,000+</div>
+          <div class="stat-label">Active Opportunities</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">500+</div>
+          <div class="stat-label">Certified Skill Programs</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">2,000+</div>
+          <div class="stat-label">Verified Employers & PSUs</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">100+</div>
+          <div class="stat-label">Central & State Schemes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Opportunities & Programs -->
+  <main class="container" style="padding: 44px 20px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 24px;">
+      <div>
+        <span class="badge badge-govt">Verified Openings</span>
+        <h2 style="font-size:24px; color:var(--gov-navy); margin-top:4px;">Latest National Opportunities</h2>
+        <p style="color:var(--text-muted); font-size:14px;">Explore positions in government departments, defense establishments, PSUs, and top enterprises.</p>
+      </div>
+      <a href="opportunities.html" class="btn btn-outline-primary btn-sm">View All Opportunities (25+) →</a>
+    </div>
+
+    <!-- Featured Grid -->
+    <div id="home-featured-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(350px, 1fr)); gap:20px; margin-bottom:48px;">
+      <!-- Dynamically populated or static baseline preview -->
+    </div>
+
+    <!-- How GovSkill Connect Works -->
+    <div style="background:#fff; border-radius:8px; padding:36px; border:1px solid var(--border-light); box-shadow:var(--shadow-sm); margin-bottom:48px;">
+      <div style="text-align:center; max-width:700px; margin:0 auto 36px;">
+        <span class="badge badge-blue">Candidate Journey</span>
+        <h2 style="font-size:24px; color:var(--gov-navy); margin-top:6px;">How GovSkill Connect Works</h2>
+        <p style="color:var(--text-muted); font-size:14px;">An authenticated four-step bridge connecting your verified talent directly with government and industry.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:24px; text-align:center;">
+        <div style="padding:20px; background:#f8fafc; border-radius:6px; border:1px solid var(--border-light);">
+          <div style="font-size:32px; margin-bottom:10px;">1️⃣</div>
+          <h4 style="color:var(--gov-navy); margin-bottom:6px;">Create Profile</h4>
+          <p style="font-size:13px; color:var(--text-muted);">Build your 10-step student profile detailing your education, college, and branch.</p>
+        </div>
+        <div style="padding:20px; background:#f8fafc; border-radius:6px; border:1px solid var(--border-light);">
+          <div style="font-size:32px; margin-bottom:10px;">2️⃣</div>
+          <h4 style="color:var(--gov-navy); margin-bottom:6px;">Upload Certificates</h4>
+          <p style="font-size:13px; color:var(--text-muted);">Provide course certificates to earn official <strong>"Verified Skill"</strong> credentials.</p>
+        </div>
+        <div style="padding:20px; background:#f8fafc; border-radius:6px; border:1px solid var(--border-light);">
+          <div style="font-size:32px; margin-bottom:10px;">3️⃣</div>
+          <h4 style="color:var(--gov-navy); margin-bottom:6px;">Algorithmic Match</h4>
+          <p style="font-size:13px; color:var(--text-muted);">Our weighted matching engine calculates your precise compatibility percentage.</p>
+        </div>
+        <div style="padding:20px; background:#f8fafc; border-radius:6px; border:1px solid var(--border-light);">
+          <div style="font-size:32px; margin-bottom:10px;">4️⃣</div>
+          <h4 style="color:var(--gov-navy); margin-bottom:6px;">Apply & Get Placed</h4>
+          <p style="font-size:13px; color:var(--text-muted);">Apply with duplicate-proof tracking and grant consent for verified employer contact.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Government Eligibility Promotion Card -->
+    <div style="background:linear-gradient(135deg, #0b3c5d, #072541); color:#fff; border-radius:8px; padding:36px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
+      <div style="max-width:650px;">
+        <span class="badge badge-govt" style="margin-bottom:10px;">Citizen Self-Assessment</span>
+        <h3 style="font-size:22px; margin-bottom:8px;">Check Your Government Eligibility</h3>
+        <p style="font-size:14px; color:#cbd5e1; line-height:1.6;">
+          Are you eligible for post-matric scholarships, technical girl student grants, or PM Internship Scheme? Answer a few questions about your state and qualifications to view matching schemes.
+        </p>
+      </div>
+      <a href="eligibility.html" class="btn btn-saffron btn-lg">Check Eligibility Now →</a>
+    </div>
+  </main>
+
+  <!-- Official Footer -->
+  <footer class="gov-footer" id="about">
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h4>GovSkill Connect Portal</h4>
+            <p style="line-height:1.7; margin-bottom:14px;">
+              GovSkill Connect is an authoritative digital gateway bridging students, skill-seekers, and employers with central & state government opportunities, apprenticeship drives, and welfare schemes.
+            </p>
+            <p style="font-size:12px; color:#94a3b8;">
+              Designed and developed in accordance with Guidelines for Indian Government Websites (GIGW).
+            </p>
+          </div>
+
+          <div class="footer-col" id="resources">
+            <h4>Categories</h4>
+            <ul class="footer-links">
+              <li><a href="opportunities.html?type=GOVERNMENT_JOB">Government Jobs</a></li>
+              <li><a href="opportunities.html?type=INTERNSHIP">Internships (PMIS)</a></li>
+              <li><a href="opportunities.html?type=APPRENTICESHIP">Apprenticeship (NATS/NAPS)</a></li>
+              <li><a href="opportunities.html?type=SCHOLARSHIP">Scholarships & Grants</a></li>
+              <li><a href="opportunities.html?type=SKILL_DEVELOPMENT">PMKVY 4.0 Skilling</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="eligibility.html">Eligibility Calculator</a></li>
+              <li><a href="government-schemes.html">Government Schemes</a></li>
+              <li><a href="login.html">Citizen & Employer Login</a></li>
+              <li><a href="register.html">Candidate Registration</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col" id="contact">
+            <h4>National Helpdesk</h4>
+            <p style="margin-bottom:8px;">Toll-Free Helpline: <strong>1800-11-2244</strong></p>
+            <p style="margin-bottom:8px;">Email: <strong>support@govskill.gov.in</strong></p>
+            <p style="font-size:12px;">Working Hours: Monday to Friday, 09:30 AM to 06:00 PM IST (Excluding Gazetted Holidays)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="footer-bottom-content">
+          <div>© 2026 GovSkill Connect • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+          <div>All Rights Reserved • Privacy Policy • Terms of Service • Hyperlinking Policy</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Fetch 6 opportunities for home page
+      try {
+        const res = await API.get('/opportunities');
+        const list = (res.opportunities || []).slice(0, 6);
+        const container = document.getElementById('home-featured-grid');
+        if (!container) return;
+
+        let html = '';
+        list.forEach(o => {
+          html += `
+            <div class="card">
+              <div class="card-body">
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                  <span class="badge badge-govt">${o.type.replace('_', ' ')}</span>
+                  <span style="font-size:12px; color:var(--text-muted); font-weight:600;">Deadline: ${o.deadline}</span>
+                </div>
+                <h4 style="font-size:17px; color:var(--gov-navy); margin-bottom:6px;">
+                  <a href="opportunity-details.html?id=${o.id}">${escapeHtml(o.title)}</a>
+                </h4>
+                <div style="font-size:13px; color:var(--text-muted); margin-bottom:10px;">
+                  🏢 ${escapeHtml(o.organization)} • 📍 ${escapeHtml(o.location)}, ${escapeHtml(o.state)}
+                </div>
+                <div style="font-size:13px; margin-bottom:12px; line-height:1.5;">
+                  ${escapeHtml(o.description ? (o.description.length > 120 ? o.description.substring(0, 120) + '...' : o.description) : '')}
+                </div>
+                <div style="padding-top:10px; border-top:1px solid var(--border-light); display:flex; justify-content:space-between; align-items:center;">
+                  <span style="font-size:13px; font-weight:700; color:#065f46;">${escapeHtml(o.stipendOrSalary)}</span>
+                  <a href="opportunity-details.html?id=${o.id}" class="btn btn-outline-primary btn-sm">Details →</a>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+      } catch (e) {
+        console.error(e);
+      }
+    });
+
+    const announcements = [
+    "📢 Prime Minister Internship Scheme (PMIS) Cycle 2026 applications are now live",
+    "🎓 National Apprenticeship Training Scheme — Apply for available opportunities",
+    "💼 Government internships and verified job opportunities are available now",
+    "📚 Skill development programs are open for eligible candidates",
+    "🏆 Scholarships and training opportunities are available for students",
+    "🚀 Build your skills and discover new career opportunities"
+];
+
+let current = 0;
+const ticker = document.getElementById("tickerText");
+
+function changeTicker() {
+    ticker.style.animation = "none";
+
+    void ticker.offsetWidth;
+
+    current = (current + 1) % announcements.length;
+
+    ticker.textContent = announcements[current];
+
+    ticker.style.animation = "newsMove 14s linear infinite";
+}
+
+setInterval(changeTicker, 14000);
+  </script>
+</body>
+</html>

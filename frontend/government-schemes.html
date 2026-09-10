@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Government Schemes & Welfare Programs | GovSkill Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gov-top-strip"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+             <div class="brand-emblem-svg">
+            <img src="images/logo.png" class="site-logo">
+          </div>
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">Central & State Scheme Directory</span>
+            <span class="portal-title">GovSkill Connect</span>
+          </div>
+        </a>
+        <div class="header-actions" id="header-auth-container">
+          <a href="login.html" class="btn btn-primary btn-sm">Login</a>
+        </div>
+      </div>
+    </div>
+
+    <nav class="main-nav">
+      <div class="container">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html">Home</a></li>
+          <li class="nav-item"><a href="opportunities.html">Opportunities</a></li>
+          <li class="nav-item"><a href="eligibility.html">Government Eligibility</a></li>
+          <li class="nav-item active"><a href="government-schemes.html">Government Schemes</a></li>
+          <li class="nav-item"><a href="candidate-search.html">Candidate Registry</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <section style="background: var(--gov-navy); color:#fff; padding: 32px 0; border-bottom: 3px solid var(--gov-saffron);">
+    <div class="container">
+      <h1 style="font-size: 26px; font-weight: 800; margin-bottom: 6px;">National Government Schemes Repository</h1>
+      <p style="font-size: 14px; color: #cbd5e1;">
+        Official directory of skill training incentives, educational fellowships, and youth employment schemes of the Government of India.
+      </p>
+    </div>
+  </section>
+
+  <main class="container" style="padding: 36px 20px;">
+    <!-- Filter Tabs -->
+    <div style="display:flex; gap:10px; margin-bottom:24px; flex-wrap:wrap;">
+      <button class="btn btn-primary btn-sm" onclick="filterSchemes('ALL', this)">All Schemes</button>
+      <button class="btn btn-secondary btn-sm" onclick="filterSchemes('SCHOLARSHIP', this)">🎓 Scholarships</button>
+      <button class="btn btn-secondary btn-sm" onclick="filterSchemes('EMPLOYMENT_SCHEME', this)">💼 Employment & Internships</button>
+      <button class="btn btn-secondary btn-sm" onclick="filterSchemes('SKILL_DEVELOPMENT', this)">🛠️ PMKVY Skilling</button>
+      <button class="btn btn-secondary btn-sm" onclick="filterSchemes('APPRENTICESHIP', this)">⚙️ Apprenticeships</button>
+    </div>
+
+    <div id="schemes-cards-container" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:24px;">
+      <div class="alert alert-info">Loading verified government schemes...</div>
+    </div>
+  </main>
+
+  <footer class="gov-footer" style="margin-top:auto;">
+    <div class="footer-bottom">
+      <div class="container text-center">
+        <div>© 2026 GovSkill Connect • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    let allSchemes = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await API.get('/government-programs');
+        allSchemes = res.programs || [];
+        renderSchemes(allSchemes);
+      } catch (err) {
+        document.getElementById('schemes-cards-container').innerHTML =
+          `<div class="alert alert-danger">Error loading schemes: ${err.message}</div>`;
+      }
+    });
+
+    function renderSchemes(list) {
+      const container = document.getElementById('schemes-cards-container');
+      if (!container) return;
+
+      if (list.length === 0) {
+        container.innerHTML = '<div class="alert alert-warning">No government programs found in this category.</div>';
+        return;
+      }
+
+      let html = '';
+      list.forEach(p => {
+        html += `
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <span class="badge badge-govt">${p.type.replace('_', ' ')}</span>
+              </div>
+              <span style="font-size:12px; color:var(--text-muted);">Cycle: <strong>${escapeHtml(p.deadline)}</strong></span>
+            </div>
+            <div class="card-body">
+              <h3 style="font-size:18px; color:var(--gov-navy); margin-bottom:4px;">${escapeHtml(p.name)}</h3>
+              <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px; font-weight:600;">
+                🏛️ ${escapeHtml(p.department)}
+              </div>
+              <p style="font-size:13px; line-height:1.6; margin-bottom:12px; color:var(--text-main);">
+                ${escapeHtml(p.description)}
+              </p>
+              <div style="background:#f8fafc; padding:10px; border-radius:4px; font-size:12px; margin-bottom:10px;">
+                <strong>Eligibility:</strong> ${escapeHtml(p.eligibility)}
+              </div>
+              <div style="background:#f0fdf4; color:#166534; padding:10px; border-radius:4px; font-size:12px; margin-bottom:14px;">
+                🎁 <strong>Benefits:</strong> ${escapeHtml(p.benefits)}
+              </div>
+              <a href="${p.applicationUrl}" target="_blank" class="btn btn-outline-primary btn-block btn-sm">
+                Official Department Portal ↗
+              </a>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function filterSchemes(type, btn) {
+      document.querySelectorAll('button[onclick^="filterSchemes"]').forEach(b => {
+        b.className = 'btn btn-secondary btn-sm';
+      });
+      btn.className = 'btn btn-primary btn-sm';
+
+      if (type === 'ALL') {
+        renderSchemes(allSchemes);
+      } else {
+        const filtered = allSchemes.filter(s => s.type === type);
+        renderSchemes(filtered);
+      }
+    }
+  </script>
+</body>
+</html>
