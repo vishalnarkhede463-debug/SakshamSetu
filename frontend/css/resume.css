@@ -1,0 +1,198 @@
+/* =============================================================================
+   Saksham Setu - Advanced ATS Resume Generator Styles
+   Supports: Govt Standard Format, Corporate Tech, Academic / Modern
+============================================================================= */
+
+.resume-builder-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .resume-builder-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Control Panel */
+.resume-controls-panel {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 20px;
+}
+
+.resume-preview-sheet {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 40px 48px;
+  min-height: 840px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #1e293b;
+  line-height: 1.5;
+  transition: all 0.2s ease;
+}
+
+/* Templates */
+/* 1. Government Standard Template */
+.template-govt .resume-header {
+  border-bottom: 3px double #13294b;
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.template-govt .resume-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: #13294b;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.template-govt .resume-contact-bar {
+  font-size: 12px;
+  color: #475569;
+  margin-top: 4px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.template-govt .resume-section-title {
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #13294b;
+  background: #f1f5f9;
+  padding: 4px 8px;
+  border-left: 4px solid #ff9933;
+  margin: 18px 0 10px 0;
+  letter-spacing: 0.5px;
+}
+
+/* 2. Corporate Tech Template */
+.template-tech .resume-header {
+  border-bottom: 2px solid #0284c7;
+  padding-bottom: 14px;
+  margin-bottom: 20px;
+}
+
+.template-tech .resume-name {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0369a1;
+}
+
+.template-tech .resume-headline {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.template-tech .resume-contact-bar {
+  font-size: 12px;
+  color: #334155;
+  margin-top: 6px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.template-tech .resume-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #0284c7;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 4px;
+  margin: 16px 0 8px 0;
+  letter-spacing: 0.5px;
+}
+
+/* Common Section Styles */
+.resume-item {
+  margin-bottom: 10px;
+}
+
+.resume-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 13px;
+}
+
+.resume-item-title {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.resume-item-sub {
+  color: #475569;
+  font-size: 12px;
+}
+
+.resume-item-date {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.resume-skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.resume-skill-badge {
+  font-size: 11px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.resume-verified-badge {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #065f46;
+}
+
+/* Print Optimization (A4) */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .resume-preview-sheet,
+  .resume-preview-sheet * {
+    visibility: visible;
+  }
+  .resume-preview-sheet {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 20mm 20mm;
+    border: none;
+    box-shadow: none;
+  }
+  .gov-top-strip,
+  .main-header,
+  .resume-controls-panel,
+  .gov-footer {
+    display: none !important;
+  }
+}

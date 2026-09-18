@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Modules & Learning Notes | Saksham Setu</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      background: #000;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .module-item {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gov-top-strip"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+            <img src="images/logo.png" class="site-logo" alt="Saksham Setu">
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">Self-Paced Learning Desk</span>
+            <span class="portal-title">Saksham Setu</span>
+          </div>
+        </a>
+        <div style="display:flex; gap:10px;">
+          <a href="skill-hub.html" class="btn btn-secondary btn-sm">← Back to Hub</a>
+          <a href="student-dashboard.html" class="btn btn-outline-primary btn-sm">Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding: 32px 20px; max-width: 1100px;">
+    <div id="course-content-area">
+      <div class="alert alert-info">Loading course curriculum and reference materials...</div>
+    </div>
+  </main>
+
+  <footer class="gov-footer" style="margin-top:auto;">
+    <div class="footer-bottom">
+      <div class="container text-center">
+        <div>© 2026 Saksham Setu • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const params = new URLSearchParams(window.location.search);
+      const courseId = parseInt(params.get('id') || '1');
+      const container = document.getElementById('course-content-area');
+
+      try {
+        const res = await API.get(`/skill-resources/${courseId}`);
+        const c = res.resource;
+
+        if (!c) {
+          container.innerHTML = '<div class="alert alert-danger">Course not found.</div>';
+          return;
+        }
+
+        container.innerHTML = `
+          <!-- Course Header -->
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; margin-bottom:24px; border-bottom:1px solid var(--border-light); padding-bottom:20px;">
+            <div>
+              <div style="display:flex; gap:8px; align-items:center; margin-bottom:6px;">
+                <span class="badge badge-govt">${escapeHtml(c.category)}</span>
+                <span class="badge" style="background:#ecfdf5; color:#065f46; font-weight:700;">${c.nsqfLevel || 'NSQF Level 6'}</span>
+                <span style="font-size:13px; color:var(--text-muted);">⏱️ ${c.duration} Curriculum</span>
+              </div>
+              <h1 style="font-size:26px; color:var(--gov-navy); font-weight:800; margin-bottom:6px;">
+                ${escapeHtml(c.title)}
+              </h1>
+              <div style="font-size:14px; color:var(--text-muted); font-weight:600;">
+                🏛️ Accrediting Body: <strong>${escapeHtml(c.source)}</strong>
+              </div>
+            </div>
+
+            <div>
+              <a href="take-assessment.html?id=${c.id}" class="btn btn-saffron btn-lg" style="display:inline-flex; align-items:center; gap:6px;">
+                🏆 Take Certification Assessment
+              </a>
+            </div>
+          </div>
+
+          <!-- Video & Overview Section -->
+          <div style="display:grid; grid-template-columns: 2fr 1fr; gap:24px; margin-bottom:32px;">
+            <div>
+              <h3 style="font-size:18px; color:var(--gov-navy); font-weight:800; margin-bottom:12px;">
+                📹 Foundation Video Masterclass
+              </h3>
+              <div class="video-container">
+                <iframe src="${c.videoEmbedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+            </div>
+
+            <div>
+              <div class="card" style="box-shadow:var(--shadow-sm);">
+                <div class="card-header">
+                  <h4 class="card-title">Curriculum Summary</h4>
+                </div>
+                <div class="card-body" style="font-size:13px; line-height:1.6; color:#334155;">
+                  <p>${escapeHtml(c.description)}</p>
+                  <hr style="border:0; border-top:1px solid var(--border-light); margin:12px 0;">
+                  <div><strong>Difficulty:</strong> ${c.difficulty}</div>
+                  <div><strong>Prerequisites:</strong> Basic computer literacy</div>
+                  <div><strong>Passing Standard:</strong> 60% on proctored MCQ exam</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modules & Notes -->
+          <h3 style="font-size:20px; color:var(--gov-navy); font-weight:800; margin-bottom:16px;">
+            📚 Structured Modules & Study Notes
+          </h3>
+
+          <div style="margin-bottom:32px;">
+            ${(c.modules || []).map((m, idx) => `
+              <div class="module-item">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                  <h4 style="font-size:16px; color:var(--gov-navy); font-weight:800; margin:0;">
+                    ${escapeHtml(m.title)}
+                  </h4>
+                  <span class="badge badge-blue">${m.duration}</span>
+                </div>
+                <div style="font-size:13px; color:#475569; line-height:1.6; background:#f8fafc; padding:10px 14px; border-radius:4px; border-left:3px solid var(--gov-saffron);">
+                  <strong>Key Concepts & Notes:</strong> ${escapeHtml(m.notes)}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Practice Quiz Section -->
+          <h3 style="font-size:20px; color:var(--gov-navy); font-weight:800; margin-bottom:16px;">
+            ✍️ Hands-on Practice Questions
+          </h3>
+
+          <div style="margin-bottom:36px;">
+            ${(c.practiceQuestions || []).map((q, idx) => `
+              <div class="card" style="margin-bottom:12px;">
+                <div class="card-body" style="padding:16px;">
+                  <div style="font-weight:700; color:var(--gov-navy); font-size:14px; margin-bottom:6px;">
+                    Q${idx + 1}: ${escapeHtml(q.q)}
+                  </div>
+                  <div style="font-size:13px; color:#15803d; background:#f0fdf4; padding:8px 12px; border-radius:4px; border:1px solid #bbf7d0;">
+                    💡 <strong>Solution / Key Takeaway:</strong> ${escapeHtml(q.a)}
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Bottom CTA -->
+          <div style="text-align:center; padding:32px; background:linear-gradient(135deg, #f8fafc, #eff6ff); border:1px solid #bfdbfe; border-radius:8px;">
+            <h3 style="font-size:20px; color:var(--gov-navy); font-weight:800; margin-bottom:8px;">
+              Ready for Official Credentialing?
+            </h3>
+            <p style="font-size:14px; color:var(--text-muted); max-width:550px; margin:0 auto 18px;">
+              Take the 15-minute proctored assessment for ${escapeHtml(c.skillName)}. Passing adds a verified badge and certificate to your Saksham Setu profile.
+            </p>
+            <a href="take-assessment.html?id=${c.id}" class="btn btn-saffron btn-lg">
+              Start Assessment Now 🏆
+            </a>
+          </div>
+        `;
+      } catch (err) {
+        container.innerHTML = `<div class="alert alert-danger">Failed to load course: ${err.message}</div>`;
+      }
+    });
+  </script>
+</body>
+</html>

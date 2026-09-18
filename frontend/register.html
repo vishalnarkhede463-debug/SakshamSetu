@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Account | GovSkill Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- National Tricolor Strip -->
+  <div class="gov-top-strip"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+            <img src="images/logo.png" class="site-logo">
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">Government of India</span>
+            <span class="portal-title">GovSkill Connect</span>
+          </div>
+        </a>
+        <div class="header-actions">
+          <a href="login.html" class="btn btn-secondary btn-sm">Already have an account? Sign In</a>
+        </div>
+      </div>
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">Government of India</span>
+            <span class="portal-title">GovSkill Connect</span>
+          </div>
+        </a>
+        <div class="header-actions">
+          <a href="login.html" class="btn btn-secondary btn-sm">Already have an account? Sign In</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Register Main -->
+  <main class="container" style="padding: 40px 20px; max-width: 680px;">
+    <div class="card" style="box-shadow: var(--shadow-md);">
+      <div class="card-header" style="background: var(--gov-navy); color: #fff; text-align: center; display: block; padding: 22px 20px;">
+        <h2 style="font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 4px;">National Registration Portal</h2>
+        <p style="font-size: 13px; color: #cbd5e1;">Register as a Student/Job Seeker or an Employer/Recruitment Entity</p>
+      </div>
+
+      <div class="card-body" style="padding: 28px;">
+        <div id="register-alert" class="alert" style="display:none;"></div>
+
+        <!-- Role Toggle Tabs -->
+        <div style="display: flex; gap: 12px; margin-bottom: 24px; padding: 6px; background: #f1f5f9; border-radius: var(--radius-sm);">
+          <label style="flex: 1; text-align: center; padding: 10px; cursor: pointer; border-radius: var(--radius-sm); font-weight: 700; font-size: 14px; background: #fff; box-shadow: var(--shadow-sm); color: var(--gov-navy);" id="tab-student-label">
+            <input type="radio" name="role" value="STUDENT" checked style="margin-right: 6px;" onchange="toggleRoleTab('STUDENT')">
+            👨‍🎓 Student / Job Seeker
+          </label>
+          <label style="flex: 1; text-align: center; padding: 10px; cursor: pointer; border-radius: var(--radius-sm); font-weight: 700; font-size: 14px; color: var(--text-muted);" id="tab-employer-label">
+            <input type="radio" name="role" value="EMPLOYER" style="margin-right: 6px;" onchange="toggleRoleTab('EMPLOYER')">
+            🏢 Employer / Recruiter
+          </label>
+        </div>
+
+        <form id="register-form">
+          <!-- Student Specific Fields -->
+          <div id="student-fields">
+            <div class="form-group">
+              <label class="form-label" for="reg-name">Full Name (As per Matriculation/Aadhaar) *</label>
+              <input type="text" class="form-control" id="reg-name" placeholder="e.g. Rahul Sharma">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="reg-state">State *</label>
+                <select class="form-select" id="reg-state">
+                  <option value="Maharashtra" selected>Maharashtra</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Telangana">Telangana</option>
+                  <option value="Gujarat">Gujarat</option>
+                  <option value="Tamil Nadu">Tamil Nadu</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reg-city">City *</label>
+                <input type="text" class="form-control" id="reg-city" placeholder="e.g. Pune, Mumbai, Nagpur">
+              </div>
+            </div>
+          </div>
+
+          <!-- Employer Specific Fields -->
+          <div id="employer-fields" style="display: none;">
+            <div class="form-group">
+              <label class="form-label" for="reg-org-name">Organization / Entity Name *</label>
+              <input type="text" class="form-control" id="reg-org-name" placeholder="e.g. Indian Space Research Organisation (ISRO)">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-org-type">Organization Type *</label>
+              <select class="form-select" id="reg-org-type">
+                <option value="GOVERNMENT">Government Department / Ministry</option>
+                <option value="PSU">Public Sector Undertaking (PSU)</option>
+                <option value="PRIVATE" selected>Private Limited / Corporate</option>
+                <option value="NGO">Non-Governmental Organisation (NGO)</option>
+                <option value="ACADEMIC">Academic / Research Institution</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="reg-org-state">State *</label>
+                <select class="form-select" id="reg-org-state">
+                  <option value="Delhi" selected>Delhi</option>
+                  <option value="Maharashtra">Maharashtra</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Telangana">Telangana</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reg-org-city">City *</label>
+                <input type="text" class="form-control" id="reg-org-city" placeholder="e.g. New Delhi, Bengaluru">
+              </div>
+            </div>
+          </div>
+
+          <!-- Common Fields -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="reg-email">Email Address *</label>
+              <input type="email" class="form-control" id="reg-email" placeholder="name@domain.com" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-phone">10-Digit Mobile Number *</label>
+              <input type="tel" class="form-control" id="reg-phone" placeholder="98XXXXXXXX" pattern="[0-9]{10}" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="reg-password">Create Password *</label>
+              <input type="password" class="form-control" id="reg-password" placeholder="At least 6 characters" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-confirm-password">Confirm Password *</label>
+              <input type="password" class="form-control" id="reg-confirm-password" placeholder="Repeat your password" required>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 22px; font-size: 13px; color: var(--text-muted);">
+            By clicking Create Account, you consent to portal terms and agree to verified information handling under national data privacy guidelines.
+          </div>
+
+          <button type="submit" class="btn btn-saffron btn-block btn-lg">
+            Create Account & Continue →
+          </button>
+        </form>
+
+        <div style="text-align: center; font-size: 14px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-light);">
+          Already registered? <a href="login.html" style="font-weight: 700;">Sign in here</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="gov-footer" style="margin-top: auto;">
+    <div class="footer-bottom">
+      <div class="container text-center">
+        <div>© 2026 GovSkill Connect • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    function toggleRoleTab(role) {
+      const studentFields = document.getElementById('student-fields');
+      const employerFields = document.getElementById('employer-fields');
+      const studentLabel = document.getElementById('tab-student-label');
+      const employerLabel = document.getElementById('tab-employer-label');
+
+      if (role === 'EMPLOYER') {
+        studentFields.style.display = 'none';
+        employerFields.style.display = 'block';
+        employerLabel.style.background = '#fff';
+        employerLabel.style.color = 'var(--gov-navy)';
+        employerLabel.style.boxShadow = 'var(--shadow-sm)';
+        studentLabel.style.background = 'transparent';
+        studentLabel.style.color = 'var(--text-muted)';
+        studentLabel.style.boxShadow = 'none';
+      } else {
+        studentFields.style.display = 'block';
+        employerFields.style.display = 'none';
+        studentLabel.style.background = '#fff';
+        studentLabel.style.color = 'var(--gov-navy)';
+        studentLabel.style.boxShadow = 'var(--shadow-sm)';
+        employerLabel.style.background = 'transparent';
+        employerLabel.style.color = 'var(--text-muted)';
+        employerLabel.style.boxShadow = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

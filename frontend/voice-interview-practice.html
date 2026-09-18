@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice-Based AI Interview Practice | Saksham Setu</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+    .voice-chamber-card {
+      background: linear-gradient(135deg, #0d1b2a, #1b263b);
+      border: 2px solid #415a77;
+      border-radius: 12px;
+      color: #ffffff;
+      padding: 36px 32px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      margin-bottom: 28px;
+    }
+    .mic-button-orb {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #ffb703;
+      border: 4px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      color: #000;
+      margin: 20px auto;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 20px rgba(255, 183, 3, 0.4);
+    }
+    .mic-button-orb:hover {
+      transform: scale(1.05);
+    }
+    .mic-button-orb.recording {
+      background: #ef4444;
+      color: #fff;
+      animation: pulse-ring 1.5s infinite;
+    }
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+    .transcript-box {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 16px 20px;
+      min-height: 80px;
+      text-align: left;
+      font-size: 15px;
+      color: #e0e1dd;
+      margin: 18px 0;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gov-top-strip"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+            <img src="images/logo.png" class="site-logo" alt="Saksham Setu">
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">Voice-Assisted & Accessible Interview Lab</span>
+            <span class="portal-title">Saksham Setu</span>
+          </div>
+        </a>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <a href="accessible-student-portal.html" class="btn btn-secondary btn-sm" style="background:#ffb703; color:#000; font-weight:800;">
+            ♿ Accessible Portal (Alt+A)
+          </a>
+          <a href="student-dashboard.html" class="btn btn-outline-primary btn-sm">📊 Dashboard</a>
+        </div>
+      </div>
+    </div>
+
+    <nav class="main-nav">
+      <div class="container">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html">Home</a></li>
+          <li class="nav-item"><a href="opportunities.html">Opportunities</a></li>
+          <li class="nav-item"><a href="skill-hub.html">Skill Development Hub</a></li>
+          <li class="nav-item"><a href="assessment-center.html">Assessments & Certs</a></li>
+          <li class="nav-item active"><a href="voice-interview-practice.html">Voice Interview</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container" style="padding: 32px 20px; max-width: 960px;">
+    <!-- Title Area -->
+    <div style="margin-bottom: 24px;">
+      <div style="display:flex; gap:8px; align-items:center; margin-bottom:6px;">
+        <span class="badge badge-govt">ACCESSIBLE AI SIMULATION</span>
+        <span class="badge" style="background:#059669; color:#fff;">SPEECH-TO-TEXT ACTIVE</span>
+      </div>
+      <h1 style="font-size:26px; color:var(--gov-navy); font-weight:800; margin-bottom:6px;">
+        🎙️ Voice-Based Interview Practice Room
+      </h1>
+      <p style="color:var(--text-muted); font-size:14px; max-width:720px; line-height:1.6;">
+        Practice answering government and industry interview questions using real-time voice speech. The AI panelist speaks the question, records your spoken answer, and provides immediate keyword feedback.
+      </p>
+    </div>
+
+    <!-- Category Selector -->
+    <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
+      <button class="btn btn-primary btn-sm q-cat-btn active" onclick="switchCategory('TECH', this)">💻 Technical (Java & Algorithms)</button>
+      <button class="btn btn-outline-primary btn-sm q-cat-btn" onclick="switchCategory('HR', this)">👥 HR & Behavioral</button>
+      <button class="btn btn-outline-primary btn-sm q-cat-btn" onclick="switchCategory('GOVT', this)">🏛️ Civil & Public Sector Values</button>
+    </div>
+
+    <!-- Voice Chamber Interface -->
+    <div class="voice-chamber-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.15); padding-bottom:12px; margin-bottom:16px;">
+        <span style="font-size:13px; color:#94a3b8;" id="cat-badge-label">Category: Technical Panel</span>
+        <button class="btn btn-secondary btn-sm" onclick="speakCurrentQuestion()" style="font-size:12px; background:rgba(255,255,255,0.1); color:#fff; border:none;">
+          🔊 Repeat Question (R)
+        </button>
+      </div>
+
+      <!-- Current Question Text -->
+      <div style="font-size:12px; color:#ffb703; font-weight:700; text-transform:uppercase; margin-bottom:6px;">
+        Panelist Question <span id="q-index-val">1</span> of 5
+      </div>
+      <h2 style="font-size:20px; font-weight:700; color:#ffffff; line-height:1.5; margin-bottom:20px;" id="spoken-question-text">
+        Loading question...
+      </h2>
+
+      <!-- Mic Orb -->
+      <button class="mic-button-orb" id="mic-btn" onclick="toggleVoiceRecording()" title="Click to speak or press Spacebar">
+        🎙️
+      </button>
+      <div style="font-size:13px; font-weight:600; color:#cbd5e1;" id="mic-status-label">
+        Click microphone to begin speaking (or press Spacebar)
+      </div>
+
+      <!-- Realtime Transcript -->
+      <div class="transcript-box" id="transcript-display">
+        <span style="color:#94a3b8; font-style:italic;">Your spoken words will appear here in real time...</span>
+      </div>
+
+      <!-- Navigation & Action -->
+      <div style="display:flex; justify-content:center; gap:12px; margin-top:20px;">
+        <button class="btn btn-saffron" onclick="evaluateAnswer()">
+          Analyze Answer & Feedback ✓
+        </button>
+        <button class="btn btn-secondary" onclick="nextQuestion()">
+          Next Question (N) →
+        </button>
+      </div>
+    </div>
+
+    <!-- Feedback Box -->
+    <div id="feedback-card" style="display:none; background:#ffffff; border:1px solid var(--border-light); border-radius:8px; padding:24px; box-shadow:var(--shadow-sm); margin-bottom:28px;">
+      <h3 style="font-size:18px; color:var(--gov-navy); font-weight:800; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+        <span>🎯</span> AI Panelist Evaluation & Feedback
+      </h3>
+      <div id="feedback-content-area"></div>
+    </div>
+  </main>
+
+  <footer class="gov-footer" style="margin-top:auto;">
+    <div class="footer-bottom">
+      <div class="container text-center">
+        <div>© 2026 Saksham Setu • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    const questionSets = {
+      TECH: [
+        { q: "Explain how a HashMap works internally in Java, and how hash collisions are resolved.", keywords: ["bucket", "hashcode", "equals", "linkedlist", "tree", "collision", "o(1)"], ideal: "Mention hashing function, buckets array, hashCode() and equals() contracts, and how Java 8+ converts collisions from linked lists to red-black trees when the bin count exceeds 8." },
+        { q: "What are the core differences between synchronous and asynchronous execution in web services?", keywords: ["blocking", "non-blocking", "thread", "promise", "callback", "event loop"], ideal: "Explain how synchronous operations block the execution thread until completion, whereas asynchronous workflows leverage non-blocking I/O and callbacks/promises." },
+        { q: "How would you design an accessible citizen registration portal adhering to WCAG standards?", keywords: ["aria", "screen reader", "keyboard", "contrast", "semantic", "wcag", "focus"], ideal: "Discuss semantic HTML5 tags, ARIA labels, tab indexing for keyboard navigation, high contrast color palettes, and descriptive alt text for images." }
+      ],
+      HR: [
+        { q: "Tell us about a challenging technical roadblock you faced in a college or internship project and how you resolved it.", keywords: ["challenge", "debug", "team", "solution", "result", "learn"], ideal: "Structure using the STAR framework: Situation, Task, Action you took, and Result achieved." },
+        { q: "How do you prioritize multiple project deadlines under tight timeline pressure?", keywords: ["priority", "deadline", "communication", "calendar", "efficiency", "focus"], ideal: "Mention task categorization (urgent vs important), milestone breakdown, and transparent stakeholder communication." }
+      ],
+      GOVT: [
+        { q: "Why do you wish to contribute to public sector technology and government digital initiatives?", keywords: ["impact", "citizen", "public service", "inclusion", "national", "transparency"], ideal: "Highlight motivation to serve millions of citizens, building scalable inclusive public digital infrastructure like UPI and Digilocker." },
+        { q: "What ethical responsibilities arise when handling citizen personal data and identity records?", keywords: ["privacy", "confidentiality", "security", "encryption", "trust", "dpdp act"], ideal: "Emphasize data minimization, cryptographic storage, consent frameworks, and adherence to Digital Personal Data Protection laws." }
+      ]
+    };
+
+    let currentCategory = 'TECH';
+    let currentQIdx = 0;
+    let isRecording = false;
+    let recognition = null;
+    let finalTranscript = '';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initSpeechRecognition();
+      loadQuestion();
+
+      // Keyboard shortcuts: Spacebar to toggle mic, R to repeat, N to next
+      window.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' && e.target === document.body) {
+          e.preventDefault();
+          toggleVoiceRecording();
+        } else if ((e.key === 'r' || e.key === 'R') && !e.target.matches('input, textarea')) {
+          speakCurrentQuestion();
+        } else if ((e.key === 'n' || e.key === 'N') && !e.target.matches('input, textarea')) {
+          nextQuestion();
+        }
+      });
+    });
+
+    function switchCategory(cat, btn) {
+      currentCategory = cat;
+      currentQIdx = 0;
+      document.querySelectorAll('.q-cat-btn').forEach(b => {
+        b.className = 'btn btn-outline-primary btn-sm q-cat-btn';
+      });
+      if (btn) btn.className = 'btn btn-primary btn-sm q-cat-btn active';
+      document.getElementById('cat-badge-label').innerText = `Category: ${cat === 'TECH' ? 'Technical Panel' : cat === 'HR' ? 'HR & Behavioral' : 'Public Sector Values'}`;
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const qList = questionSets[currentCategory];
+      const q = qList[currentQIdx];
+      document.getElementById('q-index-val').innerText = currentQIdx + 1;
+      document.getElementById('spoken-question-text').innerText = q.q;
+      document.getElementById('transcript-display').innerHTML = '<span style="color:#94a3b8; font-style:italic;">Your spoken words will appear here in real time...</span>';
+      document.getElementById('feedback-card').style.display = 'none';
+      finalTranscript = '';
+
+      // Automatically speak question aloud
+      setTimeout(() => {
+        speakCurrentQuestion();
+      }, 500);
+    }
+
+    function speakCurrentQuestion() {
+      const q = questionSets[currentCategory][currentQIdx].q;
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(q);
+        u.rate = 0.95;
+        u.pitch = 1.0;
+        u.lang = 'en-IN';
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    function initSpeechRecognition() {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) {
+        document.getElementById('mic-status-label').innerText = 'Speech recognition not supported in this browser. You may type answers.';
+        return;
+      }
+
+      recognition = new SpeechRec();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-IN';
+
+      recognition.onresult = (event) => {
+        let interim = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript + ' ';
+          } else {
+            interim += event.results[i][0].transcript;
+          }
+        }
+        document.getElementById('transcript-display').innerText = finalTranscript + interim;
+      };
+
+      recognition.onerror = (e) => {
+        console.warn('Speech recognition error:', e.error);
+        stopRecording();
+      };
+    }
+
+    function toggleVoiceRecording() {
+      if (isRecording) {
+        stopRecording();
+      } else {
+        startRecording();
+      }
+    }
+
+    function startRecording() {
+      if (!recognition) return;
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      try {
+        recognition.start();
+        isRecording = true;
+        document.getElementById('mic-btn').classList.add('recording');
+        document.getElementById('mic-status-label').innerText = 'Listening... Speak your answer now. (Click again to stop)';
+      } catch (err) {}
+    }
+
+    function stopRecording() {
+      if (!recognition) return;
+      try {
+        recognition.stop();
+        isRecording = false;
+        document.getElementById('mic-btn').classList.remove('recording');
+        document.getElementById('mic-status-label').innerText = 'Recording captured. Click "Analyze Answer & Feedback" below.';
+      } catch (err) {}
+    }
+
+    function evaluateAnswer() {
+      const q = questionSets[currentCategory][currentQIdx];
+      const text = (finalTranscript || document.getElementById('transcript-display').innerText || '').toLowerCase().trim();
+
+      if (!text || text.includes('spoken words will appear')) {
+        alert('Please speak or record your answer first.');
+        return;
+      }
+
+      // Keyword matching evaluation
+      const matched = [];
+      const missing = [];
+      q.keywords.forEach(kw => {
+        if (text.includes(kw.toLowerCase())) {
+          matched.push(kw);
+        } else {
+          missing.push(kw);
+        }
+      });
+
+      const coveragePct = Math.round((matched.length / q.keywords.length) * 100);
+      let rating = 'Needs Improvement';
+      let ratingColor = '#b91c1c';
+      if (coveragePct >= 70) {
+        rating = 'Excellent (Strong Technical Fluency)';
+        ratingColor = '#15803d';
+      } else if (coveragePct >= 40) {
+        rating = 'Good (Covered Core Concepts)';
+        ratingColor = '#b45309';
+      }
+
+      const fbArea = document.getElementById('feedback-content-area');
+      fbArea.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+          <div>
+            <span style="font-size:12px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Fluency & Concept Rating</span>
+            <div style="font-size:18px; font-weight:800; color:${ratingColor};">${rating} (${coveragePct}% keyword alignment)</div>
+          </div>
+          <span class="badge badge-govt">${matched.length} of ${q.keywords.length} Core Keywords Identified</span>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <div style="font-size:13px; font-weight:700; color:#15803d; margin-bottom:6px;">✓ Relevant Keywords Captured:</div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            ${matched.map(m => `<span class="badge" style="background:#dcfce7; color:#15803d; border:1px solid #86efac;">${m}</span>`).join('') || '<span style="font-size:12px; color:#6b7280;">None captured.</span>'}
+          </div>
+        </div>
+
+        ${missing.length > 0 ? `
+          <div style="margin-bottom:14px;">
+            <div style="font-size:13px; font-weight:700; color:#b91c1c; margin-bottom:6px;">⚠️ Recommended Keywords to Include:</div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              ${missing.map(m => `<span class="badge" style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5;">${m}</span>`).join('')}
+            </div>
+          </div>
+        ` : ''}
+
+        <div style="background:#f8fafc; border:1px solid var(--border-light); border-radius:6px; padding:12px 16px; font-size:13px; color:#334155; line-height:1.5;">
+          <strong>💡 Model Answer Blueprint:</strong> ${escapeHtml(q.ideal)}
+        </div>
+      `;
+
+      document.getElementById('feedback-card').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      const qList = questionSets[currentCategory];
+      currentQIdx = (currentQIdx + 1) % qList.length;
+      loadQuestion();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Candidate Applications | GovSkill Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gov-top-strip"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+             <div class="brand-emblem-svg">
+            <img src="images/logo.png" class="site-logo">
+          </div>
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">Recruitment Review Desk</span>
+            <span class="portal-title">GovSkill Connect</span>
+          </div>
+        </a>
+        <div class="header-actions">
+          <a href="employer-dashboard.html" class="btn btn-secondary btn-sm">← Back to Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-user-tile">
+        <div class="user-avatar-circle" style="background:var(--gov-navy-light);">🏢</div>
+        <div class="user-tile-name" id="sidebar-org-name">Recruitment Desk</div>
+        <div class="user-tile-role">Review Panel</div>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-menu-item"><a href="employer-dashboard.html">📊 Dashboard</a></li>
+        <li class="sidebar-menu-item"><a href="post-opportunity.html">➕ Post Opportunity</a></li>
+        <li class="sidebar-menu-item active"><a href="employer-applications.html">📑 Manage Applications</a></li>
+        <li class="sidebar-menu-item"><a href="recruiter-interviews.html">🎙️ Interview Command Desk</a></li>
+        <li class="sidebar-menu-item"><a href="candidate-search.html">👥 Candidate Search</a></li>
+        <li class="sidebar-menu-item"><a href="#" onclick="handleLogout(); return false;" style="color:#f87171;">🚪 Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="dashboard-main">
+      <div class="dashboard-header-banner" style="margin-bottom: 20px;">
+        <div>
+          <h2 style="font-size:24px; color:var(--gov-navy); font-weight:800;">Applicant Evaluation Pipeline</h2>
+          <p style="color:var(--text-muted); font-size:14px; margin-top:4px;">Review student candidate submissions, invite candidates to Online or Offline interviews, and update decisions.</p>
+        </div>
+        <div>
+          <a href="recruiter-interviews.html" class="btn btn-outline-primary btn-sm">🎙️ View Interview Command Desk →</a>
+        </div>
+      </div>
+
+      <div class="card" style="max-width: 100%; overflow: hidden;">
+        <div class="card-header">
+          <h3 class="card-title">Candidate Submissions & Interview Pipeline</h3>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <div id="employer-apps-table-container" class="table-responsive" style="width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch;">
+            <div style="padding:20px;" class="alert alert-info">Loading applications...</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Schedule Interview Modal -->
+  <div class="modal-overlay" id="schedule-interview-modal">
+    <div class="modal-container" style="max-width: 540px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="sched-modal-title">🎙️ Schedule Candidate Interview</h3>
+        <button class="modal-close" onclick="closeScheduleModal()">✕</button>
+      </div>
+      <div class="modal-body" style="padding: 20px;">
+        <input type="hidden" id="sched-app-id">
+        <p style="font-size:13px; color:var(--text-muted); margin-bottom:14px;" id="sched-candidate-info">
+          Inviting candidate for evaluation round.
+        </p>
+
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Interview Mode / Format *</label>
+          <select class="form-select" id="sched-type" onchange="toggleInterviewModeFields()">
+            <option value="ONLINE" selected>📹 Online Video Interview (Google Meet / Teams)</option>
+            <option value="OFFLINE">🏛️ Offline In-Person Interview (At Office / Centre)</option>
+          </select>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:14px;">
+          <div class="form-group">
+            <label class="form-label">Interview Date *</label>
+            <input type="date" class="form-control" id="sched-date" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Time Slot *</label>
+            <input type="time" class="form-control" id="sched-time" value="10:30">
+          </div>
+        </div>
+
+        <!-- Online Field -->
+        <div class="form-group" id="field-online-link" style="margin-bottom:14px;">
+          <label class="form-label">Meeting Video Link (Google Meet / Zoom / MS Teams) *</label>
+          <input type="url" class="form-control" id="sched-link" placeholder="https://meet.google.com/..." value="https://meet.google.com/saksham-setu-panel">
+        </div>
+
+        <!-- Offline Field -->
+        <div class="form-group" id="field-offline-venue" style="display:none; margin-bottom:14px;">
+          <label class="form-label">Physical Reporting Venue & Room Number *</label>
+          <input type="text" class="form-control" id="sched-venue" placeholder="e.g. Panel Room 4, Corporate HQ, BKC, Mumbai">
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px;">
+          <label class="form-label">Panel Instructions & Agenda</label>
+          <textarea class="form-control" id="sched-notes" rows="2" placeholder="e.g. Technical assessment on algorithms and system design. Please bring original academic marksheets."></textarea>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:10px;">
+          <button type="button" class="btn btn-secondary" onclick="closeScheduleModal()">Cancel</button>
+          <button type="button" class="btn btn-primary" id="btn-confirm-schedule" onclick="submitInterviewSchedule()">
+            Dispatch Interview Invitation 🚀
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="gov-footer" style="margin-top:auto;">
+    <div class="footer-bottom">
+      <div class="container text-center">
+        <div>© 2026 GovSkill Connect • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = API.getUser();
+      if (user) {
+        document.getElementById('sidebar-org-name').innerText = user.name;
+      }
+    });
+  </script>
+</body>
+</html>

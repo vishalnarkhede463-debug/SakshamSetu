@@ -1,0 +1,844 @@
+/* ==========================================================================
+   GovSkill Connect — Accessible Experience Design System
+   Tailored for Blind, Low Vision, and Keyboard-Only Users
+   WCAG 2.1 Level AAA & GIGW Compliant
+   ========================================================================== */
+
+:root {
+  --a11y-focus-ring: #ffb703;
+  --a11y-focus-outline: #023047;
+  --a11y-bg: #0d1b2a;
+  --a11y-bg-card: #1b263b;
+  --a11y-bg-surface: #24344d;
+  --a11y-text: #ffffff;
+  --a11y-text-muted: #e0e1dd;
+  --a11y-primary: #f38020;
+  --a11y-primary-hover: #e06c0c;
+  --a11y-secondary: #0077b6;
+  --a11y-success: #2ec4b6;
+  --a11y-danger: #e63946;
+  --a11y-border: #415a77;
+  --a11y-font-size: 17px;
+  --a11y-line-height: 1.65;
+}
+
+/* Base Accessible Styles */
+body.accessible-portal-page {
+  background-color: var(--a11y-bg);
+  color: var(--a11y-text);
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-size: var(--a11y-font-size);
+  line-height: var(--a11y-line-height);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* --------------------------------------------------------------------------
+   Keyboard Focus Indicators (High Visibility)
+   -------------------------------------------------------------------------- */
+:focus {
+  outline: 4px solid var(--a11y-focus-ring) !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 6px var(--a11y-focus-outline) !important;
+}
+
+button:focus,
+a:focus,
+input:focus,
+select:focus,
+textarea:focus,
+[tabindex]:focus {
+  outline: 4px solid var(--a11y-focus-ring) !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 6px var(--a11y-focus-outline) !important;
+}
+
+/* Skip to Content Navigation */
+.a11y-skip-nav {
+  position: absolute;
+  top: -60px;
+  left: 10px;
+  background: #ffb703;
+  color: #000000;
+  font-weight: 800;
+  padding: 12px 20px;
+  z-index: 10000;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: top 0.2s ease;
+  font-size: 16px;
+  border: 3px solid #000;
+}
+.a11y-skip-nav:focus {
+  top: 10px;
+}
+
+/* Screen Reader Only Utility */
+.sr-only,
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   Accessibility Toolbar — 2-Row Redesign
+   -------------------------------------------------------------------------- */
+.a11y-top-control-bar {
+  background: linear-gradient(135deg, #05101a 0%, #0a1929 100%);
+  border-bottom: 3px solid var(--a11y-primary);
+  color: #ffffff;
+  padding: 0 20px;
+}
+
+/* ---- Row 1: Badge + Primary Buttons ---- */
+.a11y-toolbar-row {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.a11y-toolbar-row--primary {
+  padding: 12px 0 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+/* ---- Badge ---- */
+.a11y-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(46,125,50,0.25);
+  border: 1.5px solid #4caf50;
+  color: #a5d6a7;
+  font-weight: 800;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+/* ---- Button Group ---- */
+.a11y-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.a11y-btn-divider {
+  width: 1px;
+  height: 30px;
+  background: rgba(255,255,255,0.2);
+  margin: 0 4px;
+}
+
+/* ---- Base Tool Button ---- */
+.a11y-tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 42px;
+  border: 2px solid transparent;
+  text-decoration: none;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
+  position: relative;
+  letter-spacing: 0.2px;
+}
+
+.a11y-btn-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.a11y-btn-label {
+  white-space: nowrap;
+}
+
+/* Speech: ON button — saffron/gold when active */
+.a11y-tool-btn--speech {
+  background: #1b263b;
+  color: #94a3b8;
+  border-color: #415a77;
+}
+.a11y-tool-btn--speech.active {
+  background: #ffb703;
+  color: #0d1b2a;
+  border-color: #ffd666;
+  box-shadow: 0 0 12px rgba(255,183,3,0.35);
+}
+.a11y-tool-btn--speech:hover {
+  border-color: #ffb703;
+  transform: translateY(-1px);
+}
+
+/* Voice Commands button — teal, pulse when listening */
+.a11y-tool-btn--voice {
+  background: #1b263b;
+  color: #94a3b8;
+  border-color: #415a77;
+}
+.a11y-tool-btn--voice.active {
+  background: #0d7377;
+  color: #ffffff;
+  border-color: #2ec4b6;
+  box-shadow: 0 0 14px rgba(46,196,182,0.4);
+}
+.a11y-tool-btn--voice:hover {
+  border-color: #2ec4b6;
+  transform: translateY(-1px);
+}
+
+/* Mic pulse dot — shown only when listening (active) */
+.a11y-mic-pulse {
+  display: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff4b4b;
+  animation: micPulse 1s ease-in-out infinite;
+}
+.a11y-tool-btn--voice.active .a11y-mic-pulse {
+  display: inline-block;
+}
+
+@keyframes micPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(1.5); }
+}
+
+/* Return to Normal Portal button */
+.a11y-tool-btn--return {
+  background: transparent;
+  color: #cbd5e1;
+  border-color: #415a77;
+  font-size: 13px;
+  padding: 8px 14px;
+  min-height: 38px;
+}
+.a11y-tool-btn--return:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: #778da9;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Active press effect */
+.a11y-tool-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* ---- Row 2: Settings Strip ---- */
+.a11y-toolbar-row--settings {
+  padding: 8px 0;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.a11y-settings-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+.a11y-setting-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  background: #1b263b;
+  border: 1.5px solid #2d3f55;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.15s ease;
+}
+.a11y-setting-group:focus-within {
+  border-color: #ffb703;
+}
+
+.a11y-setting-lbl {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #94a3b8;
+  background: #151f2e;
+  border-right: 1.5px solid #2d3f55;
+  white-space: nowrap;
+  cursor: default;
+  user-select: none;
+}
+
+.a11y-tool-select {
+  background: #1b263b;
+  color: #e2e8f0;
+  border: none;
+  outline: none;
+  padding: 7px 28px 7px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  appearance: auto;
+  min-width: 110px;
+}
+.a11y-tool-select:hover {
+  background: #27374d;
+  color: #ffffff;
+}
+.a11y-tool-select option {
+  background: #1b263b;
+  color: #e2e8f0;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .a11y-toolbar-row--primary {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .a11y-toolbar-row--settings {
+    padding: 6px 0 8px;
+  }
+  .a11y-btn-label {
+    display: none;
+  }
+  .a11y-tool-btn {
+    padding: 9px 12px;
+  }
+}
+
+
+
+/* --------------------------------------------------------------------------
+   Live Speech Announcer Banner (Visual Confirmation)
+   -------------------------------------------------------------------------- */
+.a11y-announcement-banner {
+  background: #023047;
+  color: #ffd166;
+  border-bottom: 2px solid #ffb703;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.a11y-announcement-content {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.a11y-announcement-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.a11y-announcement-text {
+  flex-grow: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Accessible Layout Grid
+   -------------------------------------------------------------------------- */
+.a11y-layout-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+.a11y-dashboard-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .a11y-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Accessible Navigation Sidebar / Menubar
+   -------------------------------------------------------------------------- */
+.a11y-nav-sidebar {
+  background: var(--a11y-bg-card);
+  border: 2px solid var(--a11y-border);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.a11y-user-profile-tile {
+  background: var(--a11y-bg-surface);
+  border-left: 4px solid var(--a11y-primary);
+  padding: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+.a11y-user-profile-tile h2 {
+  font-size: 18px;
+  margin: 0 0 4px 0;
+  color: #ffffff;
+}
+.a11y-user-profile-tile p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--a11y-text-muted);
+}
+
+.a11y-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.a11y-nav-btn {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid transparent;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+}
+.a11y-nav-btn:hover {
+  background: var(--a11y-bg-surface);
+  border-color: #778da9;
+}
+.a11y-nav-btn.active {
+  background: var(--a11y-primary);
+  color: #ffffff;
+  border-color: #ffffff;
+}
+.a11y-nav-btn.active::after {
+  content: "◄ Active";
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* --------------------------------------------------------------------------
+   Accessible Main Workspace
+   -------------------------------------------------------------------------- */
+.a11y-main-content {
+  background: var(--a11y-bg-card);
+  border: 2px solid var(--a11y-border);
+  border-radius: 8px;
+  padding: 28px;
+  min-height: 600px;
+}
+
+.a11y-section-header {
+  border-bottom: 2px solid var(--a11y-border);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.a11y-section-title {
+  font-size: 26px;
+  color: #ffffff;
+  margin: 0 0 6px 0;
+  font-weight: 800;
+}
+
+.a11y-section-desc {
+  font-size: 16px;
+  color: var(--a11y-text-muted);
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Metrics & Summary Cards
+   -------------------------------------------------------------------------- */
+.a11y-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.a11y-metric-card {
+  background: var(--a11y-bg-surface);
+  border: 2px solid var(--a11y-border);
+  border-radius: 8px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.a11y-metric-value {
+  font-size: 34px;
+  font-weight: 900;
+  color: #ffb703;
+  margin-bottom: 6px;
+}
+.a11y-metric-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   Accessible Buttons & Controls
+   -------------------------------------------------------------------------- */
+.a11y-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 800;
+  border-radius: 6px;
+  cursor: pointer;
+  min-height: 48px;
+  min-width: 48px;
+  border: 2px solid transparent;
+  text-decoration: none;
+}
+
+.a11y-btn-primary {
+  background: var(--a11y-primary);
+  color: #ffffff;
+}
+.a11y-btn-primary:hover {
+  background: var(--a11y-primary-hover);
+  border-color: #ffffff;
+}
+
+.a11y-btn-secondary {
+  background: var(--a11y-bg-surface);
+  color: #ffffff;
+  border-color: #778da9;
+}
+.a11y-btn-secondary:hover {
+  background: #27374d;
+  border-color: #ffffff;
+}
+
+.a11y-btn-success {
+  background: #2e7d32;
+  color: #ffffff;
+}
+.a11y-btn-success:hover {
+  background: #1b5e20;
+  border-color: #ffffff;
+}
+
+.a11y-btn-read {
+  background: #0077b6;
+  color: #ffffff;
+  border: 2px solid #90e0ef;
+}
+.a11y-btn-read:hover {
+  background: #023e8a;
+}
+
+.a11y-btn-voice {
+  background: #6a040f;
+  color: #ffffff;
+  border: 2px solid #ffb703;
+}
+.a11y-btn-voice:hover {
+  background: #9d0208;
+}
+
+/* --------------------------------------------------------------------------
+   Accessible Opportunity Cards
+   -------------------------------------------------------------------------- */
+.a11y-card {
+  background: var(--a11y-bg-surface);
+  border: 2px solid var(--a11y-border);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: border-color 0.15s ease;
+}
+.a11y-card:focus-within {
+  border-color: var(--a11y-focus-ring);
+}
+
+.a11y-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.a11y-card-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 6px 0;
+}
+
+.a11y-card-meta {
+  font-size: 15px;
+  color: #ffd166;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.a11y-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 800;
+  border: 1px solid currentColor;
+}
+.a11y-badge-match {
+  background: #004b23;
+  color: #70e000;
+}
+.a11y-badge-type {
+  background: #00296b;
+  color: #90e0ef;
+}
+.a11y-badge-status {
+  background: #370617;
+  color: #ffb703;
+}
+
+/* --------------------------------------------------------------------------
+   Accessible Form Controls
+   -------------------------------------------------------------------------- */
+.a11y-form-group {
+  margin-bottom: 22px;
+}
+
+.a11y-label {
+  display: block;
+  font-size: 17px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.a11y-input-hint {
+  display: block;
+  font-size: 14px;
+  color: var(--a11y-text-muted);
+  margin-bottom: 8px;
+}
+
+.a11y-input,
+.a11y-select,
+.a11y-textarea {
+  width: 100%;
+  background: #0d1b2a;
+  color: #ffffff;
+  border: 2px solid #778da9;
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 17px;
+  font-family: inherit;
+  box-sizing: border-box;
+  min-height: 48px;
+}
+.a11y-input:focus,
+.a11y-select:focus,
+.a11y-textarea:focus {
+  border-color: var(--a11y-focus-ring);
+  background: #14243b;
+}
+
+.a11y-voice-input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.a11y-voice-input-row .a11y-input {
+  flex-grow: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Accessible Modals & Overlays
+   -------------------------------------------------------------------------- */
+.a11y-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  padding: 20px;
+}
+
+.a11y-modal-box {
+  background: var(--a11y-bg-card);
+  border: 3px solid var(--a11y-focus-ring);
+  border-radius: 10px;
+  max-width: 650px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 28px;
+  color: #ffffff;
+}
+
+.a11y-modal-header {
+  border-bottom: 2px solid var(--a11y-border);
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+.a11y-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  border-top: 2px solid var(--a11y-border);
+  padding-top: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   High Contrast Modes
+   -------------------------------------------------------------------------- */
+/* High Contrast Dark */
+body.a11y-contrast-dark {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+body.a11y-contrast-dark .a11y-main-content,
+body.a11y-contrast-dark .a11y-nav-sidebar,
+body.a11y-contrast-dark .a11y-card,
+body.a11y-contrast-dark .a11y-metric-card,
+body.a11y-contrast-dark .a11y-top-control-bar,
+body.a11y-contrast-dark .a11y-modal-box {
+  background: #000000 !important;
+  border-color: #ffff00 !important;
+  color: #ffffff !important;
+}
+body.a11y-contrast-dark .a11y-section-title,
+body.a11y-contrast-dark .a11y-card-title,
+body.a11y-contrast-dark .a11y-metric-value {
+  color: #ffff00 !important;
+}
+body.a11y-contrast-dark a,
+body.a11y-contrast-dark .a11y-card-meta {
+  color: #00ffff !important;
+}
+body.a11y-contrast-dark .a11y-btn-primary {
+  background: #ffff00 !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+}
+
+/* High Contrast Light */
+body.a11y-contrast-light {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+body.a11y-contrast-light .a11y-main-content,
+body.a11y-contrast-light .a11y-nav-sidebar,
+body.a11y-contrast-light .a11y-card,
+body.a11y-contrast-light .a11y-metric-card,
+body.a11y-contrast-light .a11y-top-control-bar,
+body.a11y-contrast-light .a11y-modal-box {
+  background: #ffffff !important;
+  border-color: #000000 !important;
+  color: #000000 !important;
+}
+body.a11y-contrast-light .a11y-section-title,
+body.a11y-contrast-light .a11y-card-title,
+body.a11y-contrast-light .a11y-metric-value,
+body.a11y-contrast-light .a11y-label {
+  color: #000000 !important;
+}
+body.a11y-contrast-light .a11y-card-meta,
+body.a11y-contrast-light a {
+  color: #0000cc !important;
+}
+body.a11y-contrast-light .a11y-input,
+body.a11y-contrast-light .a11y-select,
+body.a11y-contrast-light .a11y-textarea {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+body.a11y-contrast-light .a11y-btn-primary {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+}
+
+/* --------------------------------------------------------------------------
+   Large Font Sizes
+   -------------------------------------------------------------------------- */
+body.a11y-font-large {
+  font-size: 20px !important;
+}
+body.a11y-font-large .a11y-section-title {
+  font-size: 30px !important;
+}
+body.a11y-font-large .a11y-btn {
+  font-size: 19px !important;
+  padding: 14px 24px !important;
+}
+
+body.a11y-font-xlarge {
+  font-size: 24px !important;
+}
+body.a11y-font-xlarge .a11y-section-title {
+  font-size: 34px !important;
+}
+body.a11y-font-xlarge .a11y-btn {
+  font-size: 22px !important;
+  padding: 16px 28px !important;
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion
+   -------------------------------------------------------------------------- */
+body.a11y-reduced-motion *,
+body.a11y-reduced-motion *::before,
+body.a11y-reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}

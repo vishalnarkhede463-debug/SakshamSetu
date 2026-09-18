@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications | GovSkill Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gov-top-strip"></div>
+
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+             <div class="brand-emblem-svg">
+            <img src="images/logo.png" class="site-logo">
+          </div>
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">Official Communication</span>
+            <span class="portal-title">GovSkill Connect</span>
+          </div>
+        </a>
+        <div class="header-actions" id="header-auth-container"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-wrapper">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-user-tile">
+        <div class="user-avatar-circle" id="sidebar-avatar">N</div>
+        <div class="user-tile-name" id="sidebar-user-name">User</div>
+        <div class="user-tile-role">Notifications Desk</div>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-menu-item"><a href="student-dashboard.html">📊 Dashboard</a></li>
+        <li class="sidebar-menu-item" style="background:#fef3c7; border-left:4px solid #f59e0b;"><a href="accessible-student-portal.html" style="color:#b45309; font-weight:800;">♿ Accessible Portal (Alt+A)</a></li>
+        <li class="sidebar-menu-item"><a href="student-profile.html">👤 My Profile</a></li>
+        <li class="sidebar-menu-item"><a href="resume-generator.html">📄 Official Resume Builder</a></li>
+        <li class="sidebar-menu-item"><a href="skill-hub.html">🚀 Skill Development Hub</a></li>
+        <li class="sidebar-menu-item"><a href="assessment-center.html">🏆 Assessments & Certs</a></li>
+        <li class="sidebar-menu-item"><a href="opportunities.html">🔍 Opportunities</a></li>
+        <li class="sidebar-menu-item"><a href="applications.html">📋 Applications</a></li>
+        <li class="sidebar-menu-item active"><a href="notifications.html">🔔 Notifications</a></li>
+        <li class="sidebar-menu-item"><a href="#" onclick="handleLogout(); return false;" style="color:#f87171;">🚪 Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="dashboard-main">
+      <div class="dashboard-header-banner" style="margin-bottom: 20px;">
+        <div>
+          <h2 style="font-size:24px; color:var(--gov-navy); font-weight:800; display:flex; align-items:center; gap:8px;">
+            <span>🔔</span> Smart Notification Center
+          </h2>
+          <p style="color:var(--text-muted); font-size:14px; margin-top:4px;">
+            Real-time verified alerts for interview schedules, employer shortlists, scheme deadlines & credential attestations.
+          </p>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-secondary btn-sm" onclick="markAllNotificationsRead()">✓ Mark All as Read</button>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills Bar -->
+      <div style="display:flex; gap:8px; overflow-x:auto; padding-bottom:12px; margin-bottom:18px; border-bottom:1px solid var(--border-light); flex-wrap:wrap;">
+        <button class="btn btn-primary btn-sm notif-tab active" data-cat="ALL" onclick="filterNotifs('ALL', this)">
+          All Alerts <span class="badge badge-blue" id="count-cat-all" style="margin-left:4px; font-size:11px;">0</span>
+        </button>
+        <button class="btn btn-outline-primary btn-sm notif-tab" data-cat="INTERVIEW" onclick="filterNotifs('INTERVIEW', this)">
+          🎙️ Interviews <span class="badge" id="count-cat-interview" style="background:#fef2f2; color:#b91c1c; border:1px solid #fca5a5; margin-left:4px; font-size:11px;">0</span>
+        </button>
+        <button class="btn btn-outline-primary btn-sm notif-tab" data-cat="APPLICATION" onclick="filterNotifs('APPLICATION', this)">
+          📋 Applications <span class="badge" id="count-cat-application" style="background:#f0fdf4; color:#15803d; border:1px solid #86efac; margin-left:4px; font-size:11px;">0</span>
+        </button>
+        <button class="btn btn-outline-primary btn-sm notif-tab" data-cat="DEADLINE" onclick="filterNotifs('DEADLINE', this)">
+          ⏰ Deadlines <span class="badge" id="count-cat-deadline" style="background:#fffbeb; color:#b45309; border:1px solid #fde68a; margin-left:4px; font-size:11px;">0</span>
+        </button>
+        <button class="btn btn-outline-primary btn-sm notif-tab" data-cat="SCHEME" onclick="filterNotifs('SCHEME', this)">
+          🏛️ Schemes <span class="badge" id="count-cat-scheme" style="background:#f5f3ff; color:#6d28d9; border:1px solid #ddd6fe; margin-left:4px; font-size:11px;">0</span>
+        </button>
+        <button class="btn btn-outline-primary btn-sm notif-tab" data-cat="SYSTEM" onclick="filterNotifs('SYSTEM', this)">
+          ⚙️ System <span class="badge" id="count-cat-system" style="background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; margin-left:4px; font-size:11px;">0</span>
+        </button>
+      </div>
+
+      <!-- Notifications Container -->
+      <div id="notifications-list-container">
+        <div class="alert alert-info">Loading verified communication feed...</div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="gov-footer" style="margin-top:auto;">
+    <div class="footer-bottom">
+      <div class="container text-center">
+        <div>© 2026 GovSkill Connect • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    let activeCategory = 'ALL';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = API.getUser();
+      if (user) {
+        document.getElementById('sidebar-user-name').innerText = user.name;
+        document.getElementById('sidebar-avatar').innerText = user.name.charAt(0).toUpperCase();
+      }
+      loadSmartNotifications();
+    });
+
+    async function filterNotifs(cat, btn) {
+      activeCategory = cat;
+      document.querySelectorAll('.notif-tab').forEach(t => {
+        t.className = 'btn btn-outline-primary btn-sm notif-tab';
+      });
+      if (btn) btn.className = 'btn btn-primary btn-sm notif-tab active';
+      loadSmartNotifications();
+    }
+
+    async function loadSmartNotifications() {
+      const container = document.getElementById('notifications-list-container');
+      if (!container) return;
+
+      try {
+        const res = await API.get('/notifications', { category: activeCategory });
+        const list = res.notifications || [];
+        const counts = res.categoryCounts || {};
+
+        // Update counts
+        document.getElementById('count-cat-all').innerText = counts.ALL || 0;
+        document.getElementById('count-cat-interview').innerText = counts.INTERVIEW || 0;
+        document.getElementById('count-cat-application').innerText = counts.APPLICATION || 0;
+        document.getElementById('count-cat-deadline').innerText = counts.DEADLINE || 0;
+        document.getElementById('count-cat-scheme').innerText = counts.SCHEME || 0;
+        document.getElementById('count-cat-system').innerText = counts.SYSTEM || 0;
+
+        if (list.length === 0) {
+          container.innerHTML = `
+            <div style="background:#f8fafc; border:2px dashed var(--border-light); border-radius:8px; padding:48px 24px; text-align:center;">
+              <div style="font-size:36px; margin-bottom:10px;">📭</div>
+              <h4 style="color:var(--gov-navy); margin-bottom:6px;">No Notifications in this Category</h4>
+              <p style="color:var(--text-muted); font-size:13px; max-width:400px; margin:0 auto;">
+                You are completely up to date. Verified alerts regarding applications and interview calls will appear here in real-time.
+              </p>
+            </div>
+          `;
+          return;
+        }
+
+        let html = '';
+        list.forEach(n => {
+          const isUrgent = n.priority === 'URGENT';
+          const isHigh = n.priority === 'HIGH';
+          const isUnread = !n.read;
+
+          let categoryBadge = '';
+          if (n.category === 'INTERVIEW') {
+            categoryBadge = '<span class="badge" style="background:#fee2e2; color:#991b1b; border:1px solid #fca5a5;">🎙️ INTERVIEW</span>';
+          } else if (n.category === 'APPLICATION') {
+            categoryBadge = '<span class="badge" style="background:#dcfce7; color:#166534; border:1px solid #86efac;">📋 APPLICATION</span>';
+          } else if (n.category === 'DEADLINE') {
+            categoryBadge = '<span class="badge" style="background:#fef3c7; color:#92400e; border:1px solid #fde68a;">⏰ DEADLINE</span>';
+          } else if (n.category === 'SCHEME') {
+            categoryBadge = '<span class="badge" style="background:#ede9fe; color:#5b21b6; border:1px solid #ddd6fe;">🏛️ SCHEME</span>';
+          } else {
+            categoryBadge = '<span class="badge badge-blue">⚙️ SYSTEM</span>';
+          }
+
+          let priorityBadge = '';
+          if (isUrgent) {
+            priorityBadge = '<span class="badge" style="background:#ef4444; color:#fff; font-weight:800; font-size:10px; letter-spacing:0.5px;">⚡ URGENT</span>';
+          } else if (isHigh) {
+            priorityBadge = '<span class="badge" style="background:#f97316; color:#fff; font-weight:700; font-size:10px;">PRIORITY</span>';
+          }
+
+          let borderStyle = isUrgent
+            ? 'border-left: 5px solid #ef4444; background:#fffdfd;'
+            : (isUnread ? 'border-left: 5px solid var(--gov-saffron); background:#fffefb;' : 'border-left: 1px solid var(--border-light);');
+
+          html += `
+            <div class="card" style="margin-bottom:12px; transition:box-shadow 0.2s; ${borderStyle}">
+              <div class="card-body" style="padding:18px 20px;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
+                  <div style="flex:1; min-width:260px;">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px; flex-wrap:wrap;">
+                      ${categoryBadge}
+                      ${priorityBadge}
+                      ${isUnread ? '<span class="badge" style="background:#ffb703; color:#000; font-weight:800; font-size:10px;">NEW</span>' : ''}
+                      <span style="font-size:12px; color:var(--text-muted);">${n.createdAt}</span>
+                    </div>
+                    <h4 style="font-size:16px; color:var(--gov-navy); font-weight:800; margin-bottom:6px;">
+                      ${escapeHtml(n.title)}
+                    </h4>
+                    <p style="font-size:14px; color:#334155; line-height:1.5; margin-bottom:12px;">
+                      ${escapeHtml(n.message)}
+                    </p>
+                    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                      ${n.actionUrl ? `
+                        <a href="${n.actionUrl}" class="btn btn-primary btn-sm" style="font-size:12px; padding:5px 14px;">
+                          ${n.category === 'INTERVIEW' ? 'View Interview Details 🎯' : 'Open Related Page →'}
+                        </a>
+                      ` : ''}
+                      ${isUnread ? `
+                        <button class="btn btn-outline-primary btn-sm" onclick="markNotificationRead(${n.id})" style="font-size:12px; padding:5px 12px;">
+                          ✓ Mark as Read
+                        </button>
+                      ` : '<span style="font-size:12px; color:#94a3b8;">✓ Read</span>'}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+        container.innerHTML = html;
+      } catch (err) {
+        container.innerHTML = `<div class="alert alert-danger">Error loading notifications: ${err.message}</div>`;
+      }
+    }
+
+    async function markNotificationRead(id) {
+      await API.put(`/notifications/${id}`);
+      loadSmartNotifications();
+    }
+
+    async function markAllNotificationsRead() {
+      await API.put('/notifications/read-all');
+      loadSmartNotifications();
+    }
+  </script>
+</body>
+</html>

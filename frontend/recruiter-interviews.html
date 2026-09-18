@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recruiter Interview Command Center | Saksham Setu</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+    .interview-stat-card {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .interview-stat-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gov-top-strip"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+            <img src="images/logo.png" class="site-logo" alt="Saksham Setu">
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">Interview Operations & Panel Desk</span>
+            <span class="portal-title">Saksham Setu</span>
+          </div>
+        </a>
+        <div class="header-actions">
+          <a href="employer-dashboard.html" class="btn btn-secondary btn-sm">← Back to Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-user-tile">
+        <div class="user-avatar-circle" style="background:var(--gov-navy-light);">🏢</div>
+        <div class="user-tile-name" id="sidebar-org-name">Recruitment Cell</div>
+        <div class="user-tile-role">Interview Coordinator</div>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-menu-item"><a href="employer-dashboard.html">📊 Dashboard</a></li>
+        <li class="sidebar-menu-item"><a href="post-opportunity.html">➕ Post Opportunity</a></li>
+        <li class="sidebar-menu-item"><a href="employer-applications.html">📑 Manage Applications</a></li>
+        <li class="sidebar-menu-item active"><a href="recruiter-interviews.html">🎙️ Interview Command Desk</a></li>
+        <li class="sidebar-menu-item"><a href="candidate-search.html">👥 Candidate Search</a></li>
+        <li class="sidebar-menu-item"><a href="#" onclick="handleLogout(); return false;" style="color:#f87171;">🚪 Logout</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+      <div class="dashboard-header-banner" style="margin-bottom: 24px;">
+        <div>
+          <h2 style="font-size:24px; color:var(--gov-navy); font-weight:800; display:flex; align-items:center; gap:8px;">
+            <span>🎙️</span> Recruiter Interview Command Center
+          </h2>
+          <p style="color:var(--text-muted); font-size:14px; margin-top:4px;">
+            Schedule online video meets or in-person panel interviews, issue dispatch notifications, and manage selection outcomes.
+          </p>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <a href="employer-applications.html" class="btn btn-primary btn-sm">
+            ➕ Schedule New Candidate
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Grid -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:24px;">
+        <div class="interview-stat-card">
+          <div class="interview-stat-icon" style="background:#eff6ff; color:#1d4ed8;">📋</div>
+          <div>
+            <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Total Scheduled</div>
+            <div style="font-size:24px; font-weight:800; color:var(--gov-navy); margin-top:2px;" id="stat-total">0</div>
+          </div>
+        </div>
+
+        <div class="interview-stat-card">
+          <div class="interview-stat-icon" style="background:#f0fdf4; color:#15803d;">📹</div>
+          <div>
+            <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Online Video Panels</div>
+            <div style="font-size:24px; font-weight:800; color:#15803d; margin-top:2px;" id="stat-online">0</div>
+          </div>
+        </div>
+
+        <div class="interview-stat-card">
+          <div class="interview-stat-icon" style="background:#fef3c7; color:#b45309;">🏛️</div>
+          <div>
+            <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Offline In-Person</div>
+            <div style="font-size:24px; font-weight:800; color:#b45309; margin-top:2px;" id="stat-offline">0</div>
+          </div>
+        </div>
+
+        <div class="interview-stat-card">
+          <div class="interview-stat-icon" style="background:#fdf2f8; color:#be185d;">🎉</div>
+          <div>
+            <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Offers Extended</div>
+            <div style="font-size:24px; font-weight:800; color:#be185d; margin-top:2px;" id="stat-completed">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Controls Bar -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-primary btn-sm int-filter active" onclick="filterInterviews('ALL', this)">All Interviews</button>
+          <button class="btn btn-outline-primary btn-sm int-filter" onclick="filterInterviews('ONLINE', this)">📹 Online Only</button>
+          <button class="btn btn-outline-primary btn-sm int-filter" onclick="filterInterviews('OFFLINE', this)">🏛️ Offline Only</button>
+          <button class="btn btn-outline-primary btn-sm int-filter" onclick="filterInterviews('INVITED', this)">Pending Response</button>
+        </div>
+        <div style="font-size:13px; color:var(--text-muted);" id="interview-count-badge">
+          Showing verified schedule
+        </div>
+      </div>
+
+      <!-- Interview Cards List -->
+      <div id="interviews-list-container">
+        <div class="alert alert-info">Loading scheduled interview portfolio...</div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Status / Reschedule Modal -->
+  <div class="modal-overlay" id="interview-action-modal">
+    <div class="modal-container" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="action-modal-title">Update Interview Outcome</h3>
+        <button class="modal-close" onclick="closeActionModal()">✕</button>
+      </div>
+      <div class="modal-body" style="padding:20px;">
+        <input type="hidden" id="action-app-id">
+        <div class="form-group" style="margin-bottom:16px;">
+          <label class="form-label">Recruitment Decision</label>
+          <select class="form-select" id="action-decision">
+            <option value="SELECTED">🎉 Select / Extend Employment Offer</option>
+            <option value="SHORTLISTED">Next Technical Round / Under Evaluation</option>
+            <option value="REJECTED">Reject Candidate</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:16px;">
+          <label class="form-label">Feedback & Notes for Candidate</label>
+          <textarea class="form-control" id="action-notes" rows="3" placeholder="Add confidential panel remarks, interview scorecard, or offer details..."></textarea>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:10px;">
+          <button class="btn btn-secondary" onclick="closeActionModal()">Cancel</button>
+          <button class="btn btn-primary" onclick="saveInterviewOutcome()">Save Outcome</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="gov-footer" style="margin-top:auto;">
+    <div class="footer-bottom">
+      <div class="container text-center">
+        <div>© 2026 Saksham Setu • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    let allInterviews = [];
+    let currentFilter = 'ALL';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = requireAuth('EMPLOYER');
+      if (user) {
+        document.getElementById('sidebar-org-name').innerText = user.name;
+      }
+      loadInterviews();
+    });
+
+    async function loadInterviews() {
+      const container = document.getElementById('interviews-list-container');
+      if (!container) return;
+
+      try {
+        const res = await API.get('/employer/interviews');
+        allInterviews = res.interviews || [];
+
+        // Stats calculation
+        document.getElementById('stat-total').innerText = allInterviews.length;
+        document.getElementById('stat-online').innerText = allInterviews.filter(i => i.interview.type === 'ONLINE').length;
+        document.getElementById('stat-offline').innerText = allInterviews.filter(i => i.interview.type === 'OFFLINE').length;
+        document.getElementById('stat-completed').innerText = allInterviews.filter(i => i.status === 'SELECTED').length;
+
+        renderInterviews();
+      } catch (err) {
+        container.innerHTML = `<div class="alert alert-danger">Failed to load interviews: ${err.message}</div>`;
+      }
+    }
+
+    function filterInterviews(filter, btn) {
+      currentFilter = filter;
+      document.querySelectorAll('.int-filter').forEach(b => {
+        b.className = 'btn btn-outline-primary btn-sm int-filter';
+      });
+      if (btn) btn.className = 'btn btn-primary btn-sm int-filter active';
+      renderInterviews();
+    }
+
+    function renderInterviews() {
+      const container = document.getElementById('interviews-list-container');
+      if (!container) return;
+
+      let filtered = allInterviews;
+      if (currentFilter === 'ONLINE') filtered = allInterviews.filter(i => i.interview.type === 'ONLINE');
+      else if (currentFilter === 'OFFLINE') filtered = allInterviews.filter(i => i.interview.type === 'OFFLINE');
+      else if (currentFilter === 'INVITED') filtered = allInterviews.filter(i => i.interview.status === 'INVITED');
+
+      document.getElementById('interview-count-badge').innerText = `Showing ${filtered.length} scheduled session(s)`;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="background:#f8fafc; border:2px dashed var(--border-light); border-radius:8px; padding:48px 24px; text-align:center;">
+            <div style="font-size:36px; margin-bottom:10px;">📅</div>
+            <h4 style="color:var(--gov-navy); margin-bottom:6px;">No Interviews in this Filter</h4>
+            <p style="color:var(--text-muted); font-size:13px; max-width:420px; margin:0 auto 18px;">
+              You haven't scheduled interviews under this criteria. Go to Candidate Applications to invite shortlisted students.
+            </p>
+            <a href="employer-applications.html" class="btn btn-primary btn-sm">Browse Applications →</a>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      filtered.forEach(item => {
+        const intv = item.interview || {};
+        const isOnline = intv.type === 'ONLINE';
+
+        let statusBadge = '';
+        if (intv.status === 'ACCEPTED') {
+          statusBadge = '<span class="badge" style="background:#dcfce7; color:#15803d; border:1px solid #86efac;">✓ Candidate Accepted</span>';
+        } else if (intv.status === 'DECLINED') {
+          statusBadge = '<span class="badge" style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5;">✕ Candidate Declined</span>';
+        } else {
+          statusBadge = '<span class="badge" style="background:#fef3c7; color:#92400e; border:1px solid #fde68a;">⏳ Invitation Awaiting Reply</span>';
+        }
+
+        let outcomeBadge = '';
+        if (item.status === 'SELECTED') {
+          outcomeBadge = '<span class="badge badge-verified" style="font-size:12px;">🎉 Offer Extended / Hired</span>';
+        } else if (item.status === 'REJECTED') {
+          outcomeBadge = '<span class="badge badge-required" style="font-size:12px;">Not Selected</span>';
+        }
+
+        html += `
+          <div class="card" style="margin-bottom:16px; border-left: 5px solid ${isOnline ? '#0284c7' : '#d97706'}; box-shadow:var(--shadow-sm);">
+            <div class="card-body" style="padding:22px;">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+                <div>
+                  <div style="display:flex; gap:8px; align-items:center; margin-bottom:6px; flex-wrap:wrap;">
+                    <span class="badge" style="background:${isOnline ? '#e0f2fe' : '#fef3c7'}; color:${isOnline ? '#0369a1' : '#b45309'}; font-weight:800;">
+                      ${isOnline ? '📹 ONLINE VIDEO INTERVIEW' : '🏛️ IN-PERSON OFFLINE INTERVIEW'}
+                    </span>
+                    ${statusBadge}
+                    ${outcomeBadge}
+                  </div>
+                  <h3 style="font-size:18px; color:var(--gov-navy); font-weight:800; margin-bottom:4px;">
+                    ${escapeHtml(item.studentName)}
+                  </h3>
+                  <div style="font-size:13px; color:var(--text-muted); font-weight:600;">
+                    Target Position: <strong style="color:var(--text-main);">${escapeHtml(item.opportunityTitle)}</strong> •
+                    Candidate: ${escapeHtml(item.studentEmail)} • 📞 ${escapeHtml(item.studentPhone || 'Not provided')}
+                  </div>
+                </div>
+
+                <div style="text-align:right;">
+                  <div style="font-size:15px; font-weight:800; color:var(--gov-navy);">
+                    🗓️ ${escapeHtml(intv.date)} at ${escapeHtml(intv.time || '10:30 AM')}
+                  </div>
+                  <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">
+                    Dispatched on ${intv.invitedAt || 'Recent'}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Meeting Details Box -->
+              <div style="background:#f8fafc; border:1px solid var(--border-light); border-radius:6px; padding:14px; margin-bottom:16px;">
+                ${isOnline ? `
+                  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                    <div>
+                      <div style="font-size:12px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Video Conference Link</div>
+                      <div style="font-size:14px; font-weight:700; color:#0284c7; margin-top:2px; word-break:break-all;">
+                        🔗 ${escapeHtml(intv.link || 'https://meet.google.com/saksham-setu-interview')}
+                      </div>
+                    </div>
+                    <a href="${intv.link || 'https://meet.google.com/saksham-setu-interview'}" target="_blank" class="btn btn-primary btn-sm" style="background:#0284c7; border-color:#0284c7;">
+                      Join Live Meeting 📹
+                    </a>
+                  </div>
+                ` : `
+                  <div>
+                    <div style="font-size:12px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">In-Person Reporting Venue</div>
+                    <div style="font-size:14px; font-weight:700; color:#1e293b; margin-top:2px;">
+                      📍 ${escapeHtml(intv.venue || 'Corporate Office')}
+                    </div>
+                  </div>
+                `}
+                ${intv.notes ? `
+                  <div style="margin-top:10px; padding-top:8px; border-top:1px dashed var(--border-light); font-size:13px; color:#475569;">
+                    <strong>Instructions / Agenda:</strong> ${escapeHtml(intv.notes)}
+                  </div>
+                ` : ''}
+              </div>
+
+              <!-- Action Bar -->
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                <div style="font-size:13px; color:var(--text-muted);">
+                  Academic: ${escapeHtml(item.studentBranch || 'Engineering')} • ${escapeHtml(item.studentCollege || 'Institute')}
+                </div>
+                <div style="display:flex; gap:8px;">
+                  <button class="btn btn-secondary btn-sm" onclick="openActionModal(${item.applicationId}, '${escapeHtml(item.studentName)}')">
+                    ⚖️ Record Decision / Extend Offer
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function openActionModal(appId, name) {
+      document.getElementById('action-app-id').value = appId;
+      document.getElementById('action-modal-title').innerText = `Record Outcome for ${name}`;
+      document.getElementById('interview-action-modal').classList.add('active');
+    }
+
+    function closeActionModal() {
+      document.getElementById('interview-action-modal').classList.remove('active');
+    }
+
+    async function saveInterviewOutcome() {
+      const appId = document.getElementById('action-app-id').value;
+      const decision = document.getElementById('action-decision').value;
+      const notes = document.getElementById('action-notes').value.trim();
+
+      try {
+        await API.put(`/applications/${appId}`, { status: decision });
+        alert(`Application status successfully updated to ${decision}. Candidate notified.`);
+        closeActionModal();
+        loadInterviews();
+      } catch (err) {
+        alert('Failed to update status: ' + err.message);
+      }
+    }
+  </script>
+</body>
+</html>

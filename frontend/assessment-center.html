@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessment & Certification Center | Saksham Setu</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gov-top-strip"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+            <img src="images/logo.png" class="site-logo" alt="Saksham Setu">
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">National Testing & Certification Authority</span>
+            <span class="portal-title">Saksham Setu</span>
+          </div>
+        </a>
+        <div style="display:flex; gap:10px;">
+          <a href="skill-hub.html" class="btn btn-secondary btn-sm">🚀 Skill Hub</a>
+          <a href="student-dashboard.html" class="btn btn-outline-primary btn-sm">📊 Dashboard</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+      <div class="container">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html">Home</a></li>
+          <li class="nav-item"><a href="opportunities.html">Opportunities</a></li>
+          <li class="nav-item"><a href="skill-hub.html">Skill Development Hub</a></li>
+          <li class="nav-item active"><a href="assessment-center.html">Assessments & Certs</a></li>
+          <li class="nav-item"><a href="voice-interview-practice.html">Voice Interview</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container" style="padding: 32px 20px; max-width: 1040px;">
+    <!-- Title Row -->
+    <div style="margin-bottom: 28px;">
+      <div style="display:flex; gap:8px; align-items:center; margin-bottom:6px;">
+        <span class="badge" style="background:#dbeafe; color:#1e40af; font-weight:800;">TEE CRYPTOGRAPHIC PROCTORING</span>
+        <span class="badge badge-verified">✓ INSTANT PROFILE VERIFICATION</span>
+      </div>
+      <h1 style="font-size:26px; color:var(--gov-navy); font-weight:800; margin-bottom:6px;">
+        🏆 National Competency Certification Assessments
+      </h1>
+      <p style="color:var(--text-muted); font-size:14px; max-width:760px; line-height:1.6;">
+        Take official proctored examinations to certify your skills. Passing candidates receive an authentic digital credential recognized across government hiring bodies and participating enterprise recruiters.
+      </p>
+    </div>
+
+    <!-- Assessments Cards List -->
+    <div id="assessments-list-container">
+      <div class="alert alert-info">Loading verified certification catalogue...</div>
+    </div>
+  </main>
+
+  <footer class="gov-footer" style="margin-top:auto;">
+    <div class="footer-bottom">
+      <div class="container text-center">
+        <div>© 2026 Saksham Setu • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const container = document.getElementById('assessments-list-container');
+      try {
+        const res = await API.get('/assessments');
+        const list = res.assessments || [];
+
+        // Check if user has already passed
+        const user = API.getUser();
+        let myCerts = [];
+        if (user && user.role === 'STUDENT') {
+          const prof = API.getPopulatedStudentProfile(user.id);
+          myCerts = prof.certificatesList || [];
+        }
+
+        if (list.length === 0) {
+          container.innerHTML = '<div class="alert alert-info">No active assessments available.</div>';
+          return;
+        }
+
+        let html = '';
+        list.forEach(a => {
+          const hasPassed = myCerts.some(c => (c.name || '').toLowerCase().includes(a.skillName.toLowerCase()) || (c.skillName || '').toLowerCase() === a.skillName.toLowerCase());
+
+          html += `
+            <div class="card" style="margin-bottom:18px; border-left:5px solid ${hasPassed ? '#10b981' : 'var(--gov-navy)'}; box-shadow:var(--shadow-sm);">
+              <div class="card-body" style="padding:24px;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
+                  <div>
+                    <div style="display:flex; gap:8px; align-items:center; margin-bottom:6px;">
+                      <span class="badge badge-govt">${a.skillName}</span>
+                      <span class="badge" style="background:#f1f5f9; color:#475569; font-weight:700;">${a.nsqfLevel || 'NSQF Level 6'}</span>
+                      ${hasPassed ? '<span class="badge badge-verified">✓ CERTIFIED & VERIFIED</span>' : ''}
+                    </div>
+                    <h3 style="font-size:18px; color:var(--gov-navy); font-weight:800; margin-bottom:4px;">
+                      ${escapeHtml(a.title)}
+                    </h3>
+                    <div style="font-size:13px; color:var(--text-muted);">
+                      ⏱️ Duration: <strong>${a.durationMinutes} Minutes</strong> • ❓ Total Questions: <strong>${a.totalQuestions} MCQs</strong> • 🎯 Passing Score: <strong>${a.passingPercentage}%</strong>
+                    </div>
+                  </div>
+
+                  <div>
+                    ${hasPassed ? `
+                      <div style="display:flex; gap:8px; align-items:center;">
+                        <a href="student-profile.html" class="btn btn-secondary btn-sm">View in Profile</a>
+                        <a href="take-assessment.html?id=${a.id}" class="btn btn-outline-primary btn-sm">Retake Exam</a>
+                      </div>
+                    ` : `
+                      <a href="take-assessment.html?id=${a.id}" class="btn btn-saffron btn-lg" style="display:inline-flex; align-items:center; gap:6px;">
+                        Begin Assessment ✍️
+                      </a>
+                    `}
+                  </div>
+                </div>
+
+                <div style="background:#f8fafc; border:1px solid var(--border-light); border-radius:6px; padding:12px 16px; font-size:13px; color:#475569; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                  <span>🔒 Proctored Environment: Tab-switch tracking, fullscreen lock, randomized questions.</span>
+                  <a href="skill-course.html?id=${a.id}" style="color:#0284c7; font-weight:700; text-decoration:none;">Review Study Notes First →</a>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+        container.innerHTML = html;
+      } catch (err) {
+        container.innerHTML = `<div class="alert alert-danger">Error loading assessments: ${err.message}</div>`;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Practice | GovSkill Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+    .ip-question-list {
+      margin: 0;
+      padding-left: 22px;
+      line-height: 1.9;
+      color: var(--text-main, #1f2937);
+      font-size: 15px;
+    }
+    .ip-question-list li {
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+    .ip-group-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--gov-navy, #0b3c5d);
+      margin: 22px 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--gov-saffron, #f38020);
+    }
+    .ip-group-title:first-child { margin-top: 0; }
+    @media print {
+      .main-header, .dashboard-sidebar, .gov-top-strip, #ip-selector-card, .gov-footer, .no-print { display: none !important; }
+      .dashboard-main { padding: 0 !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gov-top-strip"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+            <svg viewBox="0 0 100 100" width="44" height="44" fill="#0b3c5d">
+              <circle cx="50" cy="50" r="45" stroke="#f38020" stroke-width="4" fill="#f8fafc"/>
+              <circle cx="50" cy="50" r="20" stroke="#0b3c5d" stroke-width="2" fill="none"/>
+              <path d="M50 15 L50 85 M15 50 L85 50 M25 25 L75 75 M25 75 L75 25" stroke="#138808" stroke-width="1.5"/>
+              <text x="50" y="54" font-size="10" text-anchor="middle" font-weight="bold" fill="#0b3c5d">GOV</text>
+            </svg>
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">National Student Workspace</span>
+            <span class="portal-title">GovSkill Connect</span>
+          </div>
+        </a>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="header-actions" id="header-auth-container"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard Workspace Layout -->
+  <div class="dashboard-wrapper">
+
+    <!-- Sidebar Navigation -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-user-tile">
+        <div class="user-avatar-circle" id="sidebar-avatar">S</div>
+        <div class="user-tile-name" id="sidebar-user-name">Student Name</div>
+        <div class="user-tile-role">Candidate Portal</div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="sidebar-menu-item"><a href="student-dashboard.html">📊 Dashboard</a></li>
+        <li class="sidebar-menu-item"><a href="accessible-student-portal.html">♿ Accessible Portal (Alt+A)</a></li>
+        <li class="sidebar-menu-item"><a href="student-profile.html">👤 My Profile (10 Steps)</a></li>
+        <li class="sidebar-menu-item"><a href="student-profile.html?step=4">🎓 Education</a></li>
+        <li class="sidebar-menu-item"><a href="student-profile.html?step=6">💡 Skills & Certificates</a></li>
+        <li class="sidebar-menu-item"><a href="opportunities.html">🔍 Opportunities</a></li>
+        <li class="sidebar-menu-item"><a href="applications.html">📋 Applications</a></li>
+        <li class="sidebar-menu-item"><a href="eligibility.html">⚖️ Eligibility Calculator</a></li>
+        <li class="sidebar-menu-item active" style="background:#fef3c7; border-left:4px solid #f59e0b;"><a href="interview-practice.html" style="color:#b45309; font-weight:800;">📝 Interview Practice</a></li>
+        <li class="sidebar-menu-item"><a href="notifications.html">🔔 Notifications</a></li>
+        <li class="sidebar-menu-item"><a href="#" onclick="alert('Account settings synchronized with National Aadhaar & Digilocker.'); return false;">⚙️ Settings</a></li>
+        <li class="sidebar-menu-item"><a href="#" onclick="handleLogout(); return false;" style="color:#f87171;">🚪 Logout</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Dashboard Body -->
+    <main class="dashboard-main">
+      <div class="dashboard-header-banner">
+        <div class="dashboard-greeting">
+          <h2>📝 Interview Practice</h2>
+          <p>Select your course/field and specialization below to get 30 tailored interview questions to practice with.</p>
+        </div>
+      </div>
+
+      <!-- Selector Card -->
+      <div class="card" id="ip-selector-card" style="margin-bottom: 28px;">
+        <div class="card-header">
+          <h3 class="card-title">Step 1: Tell us your course-related details</h3>
+        </div>
+        <div class="card-body">
+          <form id="ip-select-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="ip-field">Course / Field of Study</label>
+                <select class="form-select" id="ip-field"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ip-subfield">Specialization / Sub-field</label>
+                <select class="form-select" id="ip-subfield"></select>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-saffron btn-lg">Show 30 Interview Questions →</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="alert alert-info no-print">
+        💡 Tip: These 30 questions include 15 common HR/behavioural questions asked across every field, plus 15 questions specific to your chosen specialization.
+      </div>
+
+      <!-- Results -->
+      <div id="ip-results-wrapper" style="display:none;">
+        <div class="card">
+          <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 class="card-title" id="ip-results-title">Your 30 Interview Questions</h3>
+            <button type="button" class="btn btn-outline-primary btn-sm no-print" onclick="window.print()">🖨️ Print / Save</button>
+          </div>
+          <div class="card-body">
+            <div class="ip-group-title">🗣️ General / HR Questions (1–15)</div>
+            <ol class="ip-question-list" id="ip-common-list" start="1"></ol>
+
+            <div class="ip-group-title" id="ip-specific-title">🎯 Specialization Questions (16–30)</div>
+            <ol class="ip-question-list" id="ip-specific-list" start="16"></ol>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="gov-footer" style="margin-top:auto;">
+    <div class="footer-bottom">
+      <div class="container text-center">
+        <div>© 2026 GovSkill Connect • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/interview-practice.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = API.getUser ? API.getUser() : null;
+      if (user) {
+        document.getElementById('sidebar-user-name').innerText = user.name;
+        document.getElementById('sidebar-avatar').innerText = user.name.charAt(0).toUpperCase();
+      }
+      InterviewPractice.init();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>National Admin Center | GovSkill Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    display: block;
+    border-radius: 50px;
+}
+   
+  </style>
+</head>
+<body>
+
+  <div class="gov-top-strip"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-brand-row">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-emblem-svg">
+            <img src="images/logo.png" alt="Saksham Setu AI Logo" class="site-logo">
+          </div>
+          <div class="brand-titles">
+            <span class="gov-sub-heading">Government Oversight & Moderation</span>
+            <span class="portal-title">GovSkill Connect Admin</span>
+          </div>
+        </a>
+        <div class="header-actions">
+          <button onclick="handleLogout()" class="btn btn-secondary btn-sm">Logout</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-wrapper">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-user-tile">
+        <div class="user-avatar-circle" style="background:var(--gov-red);">🏛️</div>
+        <div class="user-tile-name">Portal Admin</div>
+        <div class="user-tile-role">Ministry Oversight</div>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-menu-item active"><a href="#tab-employers" onclick="switchTab('employers', this)">🏢 Verify Employers</a></li>
+        <li class="sidebar-menu-item"><a href="#tab-users" onclick="switchTab('users', this)">👥 All Users</a></li>
+        <li class="sidebar-menu-item"><a href="#tab-opps" onclick="switchTab('opps', this)">📢 Moderation</a></li>
+        <li class="sidebar-menu-item"><a href="#" onclick="handleLogout(); return false;" style="color:#f87171;">🚪 Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="dashboard-main">
+      <div class="dashboard-header-banner">
+        <div>
+          <h2 style="font-size:24px; color:var(--gov-navy); font-weight:800;">National Administrator Panel</h2>
+          <p style="color:var(--text-muted); font-size:14px;">Entity verification, audit logging, and quality compliance control.</p>
+        </div>
+      </div>
+
+      <!-- Tab 1: Verify Employers -->
+      <div id="panel-employers" class="card" style="margin-bottom:28px;">
+        <div class="card-header">
+          <h3 class="card-title">Employer Verification Registry</h3>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <div id="admin-employers-container">
+            <div style="padding:20px;" class="alert alert-info">Loading employers...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: All Users -->
+      <div id="panel-users" class="card" style="display:none; margin-bottom:28px;">
+        <div class="card-header">
+          <h3 class="card-title">Registered User Directory</h3>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <div id="admin-users-container">
+            <div style="padding:20px;" class="alert alert-info">Loading users...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Opportunity Moderation -->
+      <div id="panel-opps" class="card" style="display:none; margin-bottom:28px;">
+        <div class="card-header">
+          <h3 class="card-title">Opportunity Notices Audit & Moderation</h3>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <div id="admin-opps-container">
+            <div style="padding:20px;" class="alert alert-info">Loading listings...</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="gov-footer" style="margin-top:auto;">
+    <div class="footer-bottom">
+      <div class="container text-center">
+        <div>© 2026 GovSkill Connect • Ministry of Skill Development & Entrepreneurship • Government of India</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = requireAuth('ADMIN');
+      if (!user) return;
+
+      loadEmployers();
+      loadUsers();
+      loadOpportunities();
+    });
+
+    function switchTab(tab, el) {
+      document.querySelectorAll('.sidebar-menu-item').forEach(i => i.classList.remove('active'));
+      el.parentElement.classList.add('active');
+
+      document.getElementById('panel-employers').style.display = tab === 'employers' ? 'block' : 'none';
+      document.getElementById('panel-users').style.display = tab === 'users' ? 'block' : 'none';
+      document.getElementById('panel-opps').style.display = tab === 'opps' ? 'block' : 'none';
+    }
+
+    async function loadEmployers() {
+      const container = document.getElementById('admin-employers-container');
+      try {
+        const res = await API.get('/admin/employers');
+        const list = res.employers || [];
+
+        let html = `
+          <table class="gov-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Organization Name</th>
+                <th>Classification</th>
+                <th>Official Email</th>
+                <th>State & City</th>
+                <th>Verification Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        list.forEach(e => {
+          const isVerified = e.verificationStatus === 'VERIFIED';
+          html += `
+            <tr>
+              <td>#${e.id}</td>
+              <td><strong>${escapeHtml(e.organizationName)}</strong></td>
+              <td><span class="badge badge-govt">${e.organizationType}</span></td>
+              <td>${escapeHtml(e.email || '—')}</td>
+              <td>${escapeHtml(e.city || '')}, ${escapeHtml(e.state || '')}</td>
+              <td>
+                <span class="badge ${isVerified ? 'badge-verified' : 'badge-pending'}">
+                  ${e.verificationStatus}
+                </span>
+              </td>
+              <td>
+                <button class="btn ${isVerified ? 'btn-secondary' : 'btn-saffron'} btn-sm" onclick="toggleEmployerVerification(${e.id}, '${isVerified ? 'PENDING' : 'VERIFIED'}')">
+                  ${isVerified ? 'Revoke Verification' : 'Verify Organization ✓'}
+                </button>
+              </td>
+            </tr>
+          `;
+        });
+
+        html += '</tbody></table>';
+        container.innerHTML = html;
+      } catch (err) {
+        container.innerHTML = `<div style="padding:20px;" class="alert alert-danger">${err.message}</div>`;
+      }
+    }
+
+    async function toggleEmployerVerification(id, newStatus) {
+      await API.put(`/admin/employers/${id}/verify`, { status: newStatus });
+      loadEmployers();
+    }
+
+    async function loadUsers() {
+      const container = document.getElementById('admin-users-container');
+      try {
+        const res = await API.get('/admin/users');
+        const list = res.users || [];
+
+        let html = `
+          <table class="gov-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Role</th>
+                <th>State</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        list.forEach(u => {
+          html += `
+            <tr>
+              <td>#${u.id}</td>
+              <td><strong>${escapeHtml(u.name)}</strong></td>
+              <td>${escapeHtml(u.email)}</td>
+              <td>${escapeHtml(u.phone)}</td>
+              <td><span class="badge ${u.role === 'ADMIN' ? 'badge-required' : u.role === 'EMPLOYER' ? 'badge-govt' : 'badge-blue'}">${u.role}</span></td>
+              <td>${escapeHtml(u.state || '—')}</td>
+            </tr>
+          `;
+        });
+
+        html += '</tbody></table>';
+        container.innerHTML = html;
+      } catch (err) {
+        container.innerHTML = `<div style="padding:20px;" class="alert alert-danger">${err.message}</div>`;
+      }
+    }
+
+    async function loadOpportunities() {
+      const container = document.getElementById('admin-opps-container');
+      try {
+        const res = await API.get('/opportunities');
+        const list = res.opportunities || [];
+
+        let html = `
+          <table class="gov-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Organization</th>
+                <th>Type</th>
+                <th>Deadline</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        list.forEach(o => {
+          html += `
+            <tr>
+              <td>#${o.id}</td>
+              <td><strong>${escapeHtml(o.title)}</strong></td>
+              <td>${escapeHtml(o.organization)}</td>
+              <td><span class="badge badge-govt">${o.type}</span></td>
+              <td>${o.deadline}</td>
+              <td>
+                <button class="btn btn-secondary btn-sm" style="color:#b91c1c;" onclick="deleteOpportunityAdmin(${o.id})">Remove</button>
+              </td>
+            </tr>
+          `;
+        });
+
+        html += '</tbody></table>';
+        container.innerHTML = html;
+      } catch (err) {
+        container.innerHTML = `<div style="padding:20px;" class="alert alert-danger">${err.message}</div>`;
+      }
+    }
+
+    async function deleteOpportunityAdmin(id) {
+      if (!confirm('Administrative Action: Remove this opportunity from public directory?')) return;
+      await API.delete(`/admin/opportunities/${id}`);
+      loadOpportunities();
+    }
+  </script>
+</body>
+</html>

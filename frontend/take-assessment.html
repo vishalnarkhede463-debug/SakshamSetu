@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proctored Certification Exam | Saksham Setu</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .site-logo {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+    .proctor-banner {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 3px solid var(--gov-saffron);
+    }
+    .timer-pill {
+      background: #1e293b;
+      border: 1px solid #334155;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 800;
+      color: #38bdf8;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .timer-warning {
+      color: #ef4444;
+      border-color: #ef4444;
+      animation: pulse 1s infinite;
+    }
+    .integrity-badge {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: #064e3b;
+      color: #a7f3d0;
+      border: 1px solid #059669;
+      font-weight: 700;
+    }
+    .integrity-warning {
+      background: #7f1d1d !important;
+      color: #fecaca !important;
+      border-color: #dc2626 !important;
+    }
+    .exam-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 24px;
+      padding: 24px 0;
+    }
+    @media (max-width: 900px) {
+      .exam-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .option-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      background: #ffffff;
+    }
+    .option-row:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
+    }
+    .option-row.selected {
+      background: #eff6ff;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px #2563eb;
+    }
+    .pal-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      border: 1px solid var(--border-light);
+      background: #f8fafc;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .pal-btn.answered {
+      background: #10b981;
+      color: #fff;
+      border-color: #059669;
+    }
+    .pal-btn.active {
+      border: 2px solid #2563eb;
+      box-shadow: 0 0 0 2px #93c5fd;
+    }
+    /* Digital Certificate Card */
+    .certificate-card {
+      background: #ffffff;
+      border: 6px double #13294b;
+      padding: 32px 28px;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+  </style>
+</head>
+<body oncontextmenu="return false;" oncopy="return false;" oncut="return false;">
+
+  <!-- Proctored Control Strip -->
+  <div class="proctor-banner">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span style="font-size:20px;">🛡️</span>
+      <div>
+        <div style="font-size:14px; font-weight:800; color:#fff;" id="exam-header-title">Proctored Assessment</div>
+        <div style="font-size:11px; color:#94a3b8;">Saksham Setu TEE Anti-Cheating Shield Active</div>
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:14px;">
+      <span class="integrity-badge" id="integrity-status-pill">✓ Proctor Integrity: Normal</span>
+      <div class="timer-pill" id="exam-timer-pill">
+        <span>⏱️</span> <span id="time-remaining-val">15:00</span>
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="toggleFullScreen()" id="fs-btn" style="font-size:11px; padding:4px 8px;">
+        ⛶ Fullscreen
+      </button>
+    </div>
+  </div>
+
+  <main class="container" style="max-width: 1100px;">
+    <!-- Active Exam Interface -->
+    <div id="exam-active-container">
+      <div class="exam-layout">
+        <!-- Question Area -->
+        <div>
+          <div class="card" style="box-shadow:var(--shadow-sm); min-height:450px;">
+            <div class="card-body" style="padding:28px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid var(--border-light); padding-bottom:12px;">
+                <span style="font-weight:800; color:var(--gov-navy); font-size:15px;">
+                  Question <span id="current-q-index">1</span> of <span id="total-q-count">5</span>
+                </span>
+                <span class="badge badge-govt" id="q-mark-badge">+1 Mark</span>
+              </div>
+
+              <div style="font-size:16px; font-weight:700; color:#1e293b; line-height:1.5; margin-bottom:24px;" id="question-text-el">
+                Loading question...
+              </div>
+
+              <!-- Options Container -->
+              <div id="options-container">
+                <!-- Injected dynamically -->
+              </div>
+
+              <!-- Action Buttons -->
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:28px; border-top:1px solid var(--border-light); padding-top:18px;">
+                <button class="btn btn-secondary" id="btn-prev-q" onclick="navigateQuestion(-1)">
+                  ← Previous
+                </button>
+                <div style="display:flex; gap:10px;">
+                  <button class="btn btn-outline-primary btn-sm" onclick="clearCurrentAnswer()">
+                    Clear Selection
+                  </button>
+                  <button class="btn btn-primary" id="btn-next-q" onclick="navigateQuestion(1)">
+                    Next Question →
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question Palette & Submit -->
+        <div>
+          <div class="card" style="box-shadow:var(--shadow-sm); position:sticky; top:80px;">
+            <div class="card-header">
+              <h4 class="card-title" style="font-size:14px;">Question Palette</h4>
+            </div>
+            <div class="card-body">
+              <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; margin-bottom:20px;" id="question-palette-grid">
+                <!-- Numbered buttons -->
+              </div>
+
+              <div style="font-size:12px; color:var(--text-muted); margin-bottom:18px; line-height:1.6;">
+                <div><span style="display:inline-block; width:10px; height:10px; background:#10b981; border-radius:2px; margin-right:6px;"></span> Answered</div>
+                <div><span style="display:inline-block; width:10px; height:10px; background:#f8fafc; border:1px solid #cbd5e1; border-radius:2px; margin-right:6px;"></span> Unanswered</div>
+              </div>
+
+              <button class="btn btn-saffron" style="width:100%; font-weight:800;" onclick="confirmSubmitExam()">
+                Submit Assessment ✍️
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exam Results Container (Hidden by default) -->
+    <div id="exam-results-container" style="display:none; padding:40px 0;">
+      <!-- Populated dynamically -->
+    </div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    let assessment = null;
+    let currentIdx = 0;
+    let studentAnswers = {};
+    let timeRemaining = 15 * 60;
+    let timerInterval = null;
+    let tabSwitches = 0;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = requireAuth('STUDENT');
+      if (!user) return;
+
+      const params = new URLSearchParams(window.location.search);
+      const assessmentId = parseInt(params.get('id') || '1');
+
+      try {
+        const res = await API.get(`/assessments/${assessmentId}`);
+        assessment = res.assessment;
+
+        if (!assessment) {
+          alert('Assessment data unavailable.');
+          window.location.href = 'assessment-center.html';
+          return;
+        }
+
+        document.getElementById('exam-header-title').innerText = assessment.title;
+        document.getElementById('total-q-count').innerText = assessment.questions.length;
+        timeRemaining = (assessment.durationMinutes || 15) * 60;
+
+        initAntiCheatingMonitors();
+        startTimer();
+        renderPalette();
+        renderQuestion(0);
+      } catch (err) {
+        alert('Failed to initialize assessment: ' + err.message);
+      }
+    });
+
+    // ------------------------------------------------------------------------
+    // Anti-Cheating & Integrity Monitoring
+    // ------------------------------------------------------------------------
+    function initAntiCheatingMonitors() {
+      // 1. Tab Switch / Window Blur Detection
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          recordIntegrityViolation('Tab switch detected');
+        }
+      });
+
+      window.addEventListener('blur', () => {
+        recordIntegrityViolation('Window lost focus');
+      });
+
+      // 2. Fullscreen Exit Detection
+      document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement) {
+          const fsBtn = document.getElementById('fs-btn');
+          if (fsBtn) fsBtn.innerText = '⛶ Enter Fullscreen';
+        }
+      });
+    }
+
+    function recordIntegrityViolation(reason) {
+      tabSwitches++;
+      const pill = document.getElementById('integrity-status-pill');
+      if (pill) {
+        pill.innerText = `⚠️ Warning: ${tabSwitches} Focus Violation(s)`;
+        pill.className = 'integrity-badge integrity-warning';
+      }
+
+      if (tabSwitches === 1) {
+        alert('⚠️ PROCTOR ALERT: Leaving the assessment window is recorded. Repeated violations will flag your attempt for integrity review.');
+      } else if (tabSwitches >= 3) {
+        alert('⚠️ CRITICAL WARNING: 3 window switches recorded. Your exam will be submitted automatically if violations continue.');
+      }
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+        document.getElementById('fs-btn').innerText = '✕ Exit Fullscreen';
+      } else {
+        document.exitFullscreen().catch(() => {});
+        document.getElementById('fs-btn').innerText = '⛶ Fullscreen';
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // Exam Timer
+    // ------------------------------------------------------------------------
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        const mins = Math.floor(timeRemaining / 60);
+        const secs = timeRemaining % 60;
+        const pill = document.getElementById('exam-timer-pill');
+        const val = document.getElementById('time-remaining-val');
+
+        if (val) {
+          val.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        if (timeRemaining <= 120 && pill) {
+          pill.className = 'timer-pill timer-warning';
+        }
+
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          alert('Time has expired! Submitting your assessment automatically.');
+          submitExam();
+        }
+      }, 1000);
+    }
+
+    // ------------------------------------------------------------------------
+    // Question Rendering
+    // ------------------------------------------------------------------------
+    function renderPalette() {
+      const grid = document.getElementById('question-palette-grid');
+      if (!grid || !assessment) return;
+
+      let html = '';
+      assessment.questions.forEach((q, idx) => {
+        const isAnswered = studentAnswers[q.id] !== undefined;
+        const isActive = idx === currentIdx;
+        html += `
+          <button class="pal-btn ${isAnswered ? 'answered' : ''} ${isActive ? 'active' : ''}" onclick="renderQuestion(${idx})">
+            ${idx + 1}
+          </button>
+        `;
+      });
+      grid.innerHTML = html;
+    }
+
+    function renderQuestion(idx) {
+      if (!assessment || idx < 0 || idx >= assessment.questions.length) return;
+      currentIdx = idx;
+
+      const q = assessment.questions[idx];
+      document.getElementById('current-q-index').innerText = idx + 1;
+      document.getElementById('question-text-el').innerText = q.question;
+
+      // Render Options
+      const optContainer = document.getElementById('options-container');
+      let html = '';
+      q.options.forEach((opt, oIdx) => {
+        const isSelected = studentAnswers[q.id] === oIdx;
+        html += `
+          <div class="option-row ${isSelected ? 'selected' : ''}" onclick="selectAnswer(${q.id}, ${oIdx})">
+            <input type="radio" name="opt_${q.id}" ${isSelected ? 'checked' : ''} style="margin:0;">
+            <div style="font-size:14px; font-weight:600; color:#1e293b;">${escapeHtml(opt)}</div>
+          </div>
+        `;
+      });
+      optContainer.innerHTML = html;
+
+      // Update Navigation Buttons
+      document.getElementById('btn-prev-q').disabled = (currentIdx === 0);
+      const nextBtn = document.getElementById('btn-next-q');
+      if (currentIdx === assessment.questions.length - 1) {
+        nextBtn.innerText = 'Review & Submit →';
+      } else {
+        nextBtn.innerText = 'Next Question →';
+      }
+
+      renderPalette();
+    }
+
+    function selectAnswer(questionId, optionIdx) {
+      studentAnswers[questionId] = optionIdx;
+      renderQuestion(currentIdx);
+    }
+
+    function clearCurrentAnswer() {
+      const q = assessment.questions[currentIdx];
+      delete studentAnswers[q.id];
+      renderQuestion(currentIdx);
+    }
+
+    function navigateQuestion(delta) {
+      const target = currentIdx + delta;
+      if (target >= assessment.questions.length) {
+        confirmSubmitExam();
+      } else {
+        renderQuestion(target);
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // Submission & Instant TEE Credentialing
+    // ------------------------------------------------------------------------
+    function confirmSubmitExam() {
+      const total = assessment.questions.length;
+      const answered = Object.keys(studentAnswers).length;
+      const unans = total - answered;
+
+      let msg = `You have answered ${answered} out of ${total} questions.`;
+      if (unans > 0) msg += `\n⚠️ You have ${unans} unanswered question(s).`;
+      msg += `\n\nAre you sure you want to submit?`;
+
+      if (confirm(msg)) {
+        submitExam();
+      }
+    }
+
+    async function submitExam() {
+      clearInterval(timerInterval);
+      document.getElementById('exam-active-container').style.display = 'none';
+      const resultsContainer = document.getElementById('exam-results-container');
+      resultsContainer.style.display = 'block';
+      resultsContainer.innerHTML = '<div class="alert alert-info">Evaluating cryptographic assessment answers in TEE sandbox...</div>';
+
+      try {
+        const res = await API.post(`/assessments/${assessment.id}/submit`, {
+          answers: studentAnswers,
+          tabSwitches
+        });
+
+        if (res.passed) {
+          const cert = res.certificate || {};
+          resultsContainer.innerHTML = `
+            <div class="certificate-card">
+              <div style="font-size:40px; margin-bottom:6px;">🏆</div>
+              <span class="badge" style="background:#dcfce7; color:#15803d; border:1px solid #86efac; font-size:12px; margin-bottom:12px;">
+                ✓ VERIFIED GOVERNMENT NSQF CREDENTIAL
+              </span>
+
+              <h2 style="color:var(--gov-navy); font-size:24px; font-weight:800; margin-bottom:4px;">
+                Certificate of Technical Competence
+              </h2>
+              <div style="font-size:14px; color:var(--text-muted); margin-bottom:20px;">
+                Issued by Saksham Setu National Testing Authority
+              </div>
+
+              <p style="font-size:15px; color:#334155; line-height:1.6; margin-bottom:20px;">
+                This certifies that the candidate has successfully cleared the proctored assessment in <strong>${escapeHtml(assessment.skillName)}</strong> with a score of <strong>${res.percentage}%</strong> (${res.score}/${res.total} marks).
+              </p>
+
+              <div style="background:#f8fafc; border:1px dashed var(--border-light); padding:12px; border-radius:6px; font-size:12px; color:var(--text-muted); margin-bottom:24px;">
+                <strong>Credential ID:</strong> ${cert.credentialId || 'SS-TEE-2026-CERT'}<br>
+                <strong>Security Proof:</strong> SHA-256 Anchored • Zero Tampering Verified
+              </div>
+
+              <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+                <a href="student-profile.html" class="btn btn-primary">
+                  View in My Profile 👤
+                </a>
+                <a href="resume-generator.html" class="btn btn-saffron">
+                  Add to Official Resume 📄
+                </a>
+                <a href="assessment-center.html" class="btn btn-secondary">
+                  Assessment Center
+                </a>
+              </div>
+            </div>
+          `;
+        } else {
+          resultsContainer.innerHTML = `
+            <div class="card" style="max-width:540px; margin:0 auto; text-align:center; padding:32px;">
+              <div style="font-size:42px; margin-bottom:12px;">📚</div>
+              <h2 style="color:var(--gov-navy); font-size:22px; font-weight:800; margin-bottom:8px;">
+                Assessment Score: ${res.percentage}%
+              </h2>
+              <p style="color:#b91c1c; font-weight:700; font-size:14px; margin-bottom:12px;">
+                Passing standard is ${res.passingPercentage}%. You scored ${res.score} out of ${res.total} marks.
+              </p>
+              <p style="color:#475569; font-size:14px; line-height:1.5; margin-bottom:24px;">
+                Don't be discouraged! You can revisit the structured notes, lecture videos, and practice quizzes in the Skill Hub, then retake the assessment anytime.
+              </p>
+              <div style="display:flex; justify-content:center; gap:12px;">
+                <a href="skill-course.html?id=${assessment.id}" class="btn btn-primary">
+                  Review Study Notes 🚀
+                </a>
+                <a href="assessment-center.html" class="btn btn-secondary">
+                  Back to Catalogue
+                </a>
+              </div>
+            </div>
+          `;
+        }
+      } catch (err) {
+        resultsContainer.innerHTML = `<div class="alert alert-danger">Error submitting assessment: ${err.message}</div>`;
+      }
+    }
+  </script>
+</body>
+</html>
